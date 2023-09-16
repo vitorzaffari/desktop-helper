@@ -1,0 +1,91 @@
+.date-form.active{
+  visibility: visible;
+  height: auto;
+  opacity: 1;
+  // height: fit-content;
+  
+}
+
+.date-form {
+  position: relative;
+  position: absolute;
+  margin-top: 1rem;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ccc;
+  background-color: #222;
+  padding: 1rem;
+  opacity: 0;
+  height: 0;
+  visibility: hidden;  
+  transition: height 400ms ease, visibility 400ms ease, opacity 200ms ease;
+
+  h3 {
+    width: 200px;
+    margin: 0 auto 1rem;
+    text-align: center;
+    padding: 5px;
+    font-weight: 400;
+
+  }
+  .inputs {
+    width: fit-content;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .input-wrap {
+      display: flex;
+      flex-direction: column;
+      label{
+        margin-bottom: 5px;;
+      }
+      input{
+        max-width: 200px;
+        padding:  10px;
+        border-radius: 5px;
+
+        background-color: #ddd;
+        border: none;
+        outline: none;
+        transition: background-color 300ms ease;
+
+        &:focus{
+          background-color: #fff;
+        }
+      }
+    }
+
+    .date-number-inputs {
+      display: flex;
+      gap: 10px;
+      
+      .input-wrap {
+        max-width: 100px;
+      }
+    }
+  }
+  .buttons{
+    position: absolute;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    top: 0;
+    justify-content: center;
+    gap: 10px;
+    button{
+      border: 1px solid #ccc;
+      padding: 5px;
+      font-size: 1rem;
+      border-radius: 5px;
+
+
+      &:focus-visible{
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
+      }
+    }
+  }
+}

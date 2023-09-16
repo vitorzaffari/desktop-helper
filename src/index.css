@@ -1,0 +1,24 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: #141414;
+  color: #fff;
+}
+
+button{
+  background-color: transparent;
+  color: currentColor;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
