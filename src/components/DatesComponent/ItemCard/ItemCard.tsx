@@ -17,7 +17,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [day, month, year] = date.split("/");
   const [newValues, setNewValues] = useState({
-    name: "",
+    name: name,
     day: day,
     month: month,
     year: year,
@@ -65,7 +65,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
       .split("/")
       .map(Number);
     const futureDate = new Date(futureYear, futureMonth - 1, futureDay);
-
+    const currentMonth = currentDate.getMonth() + 1;
+    // console.log(currentMonth)
     const timeDifference = futureDate.getTime() - dateNow.getTime();
     const millisecondsInDay = 1000 * 60 * 60 * 24;
     const millisecondsInMonth = millisecondsInDay * 30;
@@ -78,20 +79,47 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
         millisecondsInDay) >>
       0;
 
-    if (remainingYears === 0 && remainingMonths === 0 && remainingDays <= 7) {
-      return [`In ${remainingDays + 1} days`, "red"];
-    } else if (remainingYears === 0 && remainingMonths === 0) {
-      return [`In less than one month`, "red"];
-    } else if (remainingYears === 0 && remainingMonths === 1) {
-      return ["Next month", "red"];
-    } else if (remainingYears === 0) {
-      return [`In ${remainingMonths} months`, "red"];
+    if (timeDifference < 0) {
+      return ["Expired", "red"];
+    } else if (
+      remainingYears === 0 &&
+      remainingMonths === 0 &&
+      remainingDays < 2
+    ) {
+      return [`In 1 day`, "#f88888"];
+    } else if (
+      remainingYears === 0 &&
+      remainingMonths === 0 &&
+      remainingDays <= 7
+    ) {
+      return [`In ${remainingDays + 1} days`, "#f88888"];
+    } else if (
+      remainingYears === 0 &&
+      remainingMonths === 0 &&
+      currentMonth === futureMonth
+    ) {
+      return [`In ${remainingDays} days`, "#f7f594"];
+    } else if (
+      (remainingYears === 0 &&
+      remainingMonths === 0 &&
+      currentMonth < futureMonth)
+      || (remainingYears === 0 &&
+      remainingMonths === 1 &&
+      (currentMonth + 1 == futureMonth))
+    ) {
+      return ["Next month", "#b8f794"];
+    } else if (remainingYears === 0 && remainingMonths === 1 ) {
+      return [`In two months`, "#a5f379"];
+    } else if (remainingYears === 0 && remainingMonths > 1 ) {
+      return [`In ${remainingMonths} months`, "#a5f379"];
     } else if (remainingYears === 1 && remainingMonths === 0) {
-      return ["In one year", "red"];
+      return ["In one year", "#65d9e9"];
     } else if (remainingYears === 1 && remainingMonths > 1) {
-      return [`In one year and ${remainingMonths} months`, "red"];
+      return [`In one year and ${remainingMonths} months`, "#65d9e9"];
+    } else if (remainingYears >= 2) {
+      return [`In ${remainingYears} years`, "#0daef8"];
     } else {
-      return [`In ${remainingYears} years`, "red"];
+      return ["", ""];
     }
   }
 
@@ -148,7 +176,19 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
           {isEditing ? (
             <>
               <button onClick={handleConfirm}>Confirm</button>
-              <button onClick={() => setIsEditing(false)}>Cancel</button>
+              <button
+                onClick={() => {
+                  setIsEditing(false);
+                  setNewValues({
+                    name: name,
+                    day: day,
+                    month: month,
+                    year: year,
+                  });
+                }}
+              >
+                Cancel
+              </button>
             </>
           ) : (
             <>

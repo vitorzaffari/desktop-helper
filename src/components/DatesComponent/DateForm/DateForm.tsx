@@ -4,16 +4,16 @@ import { v4 as uuidv4 } from "uuid";
 import { ItemData } from "../../../Utilities/bridge";
 
 interface DateFormProps {
-  isFormOpen: boolean;
-  setIsFormOpen: Function;
-  setFormHeight: Function;
+  isDateFormOpen: boolean;
+  setIsDateFormOpen: Function;
+  setDateFormHeight: Function;
   setData: Function;
 }
 
 const DateForm: React.FC<DateFormProps> = ({
-  isFormOpen,
-  setFormHeight,
-  setIsFormOpen,
+  isDateFormOpen,
+  setDateFormHeight,
+  setIsDateFormOpen,
   setData,
 }) => {
   const [itemData, setItemData] = useState({
@@ -32,7 +32,6 @@ const DateForm: React.FC<DateFormProps> = ({
   function handleSubmitData() {
     const uuid = uuidv4();
 
-    // console.log(itemData)
     for (let item of Object.values(itemData)) {
       if (item === "") {
         console.log(`Item must not be empty`);
@@ -47,24 +46,27 @@ const DateForm: React.FC<DateFormProps> = ({
     window.bridge.sendData(item);
     setData((prev: ItemData[]) => [...prev, item]);
     console.log(item);
+
+    setItemData({ name: "", day: "", month: "", year: "" });
+    setIsDateFormOpen(false);
   }
 
   useEffect(() => {
     //dinamic height animation
 
-    if (isFormOpen) {
+    if (isDateFormOpen) {
       const formContainer: null | HTMLElement =
         document.querySelector(".date-form");
       const containerHeight = formContainer?.clientHeight;
-      if (formContainer) {
-        setFormHeight(containerHeight);
+      if (formContainer && setDateFormHeight) {
+        setDateFormHeight(containerHeight);
         formContainer.style.height = `${containerHeight}px`;
       }
     }
-  }, [isFormOpen]);
+  }, [isDateFormOpen]);
 
   return (
-    <div className={`date-form ${isFormOpen ? "active" : ""}`}>
+    <div className={`date-form ${isDateFormOpen ? "active" : ""}`}>
       <h3>Add a new item</h3>
       <div className="inputs">
         <div className="input-wrap">
@@ -121,7 +123,13 @@ const DateForm: React.FC<DateFormProps> = ({
         <button className="add" onClick={handleSubmitData}>
           Confirm
         </button>
-        <button className="add" onClick={() => setIsFormOpen(false)}>
+        <button
+          className="add"
+          onClick={() => {
+            setIsDateFormOpen(false);
+            setItemData({ name: "", day: "", month: "", year: "" });
+          }}
+        >
           Cancel
         </button>
       </div>

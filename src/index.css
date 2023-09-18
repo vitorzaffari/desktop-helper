@@ -22,3 +22,6 @@ button{
   border: none;
   cursor: pointer;
 }
+::-webkit-scrollbar {
+  width: 0px;
+}
