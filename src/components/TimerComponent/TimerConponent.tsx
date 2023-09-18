@@ -15,6 +15,9 @@ const TimerConponent = () => {
   const [isTimerFormOpen, setIsTimerFormOpen] = useState(false);
   const [timers, setTimers] = useState<TimerItem[]>([]);
 
+  function removeTimer(id: string) {
+    setTimers((prevTimers) => prevTimers.filter((item) => item.id !== id));
+  }
   return (
     <div className={"timer-helper"}>
       <div className="timer-header">
@@ -37,7 +40,7 @@ const TimerConponent = () => {
       {/* <div> */}
       <div className="items-wrapper">
         {timers.map((item) => (
-          <TimerCard key={item.id} {...item} />
+          <TimerCard key={item.id} {...item} removeTimer={removeTimer} />
         ))}
         {/* </div> */}
       </div>

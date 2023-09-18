@@ -48,6 +48,7 @@ const TimerForm: React.FC<TimerFormProps> = ({
       seconds: time.seconds,
     };
     setTimers((prev: TimerItem[]) => [...prev, item]);
+    handleCloseForm()
   }
 
   function handleCloseForm(){
