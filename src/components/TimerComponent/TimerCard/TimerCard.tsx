@@ -38,11 +38,7 @@ const TimerCard: React.FC<TimerItem> = ({
         newMinute = 59;
         newHour -= 1;
       }
-      if (newHour === 0 && newMinute === 0 && newSeconds === 0) {
-        clearInterval(timerInterval);
-        
-        return
-      }
+
       setTimer({
         hour: newHour,
         minute: newMinute,
@@ -52,13 +48,20 @@ const TimerCard: React.FC<TimerItem> = ({
 
     timerInterval = setInterval(updateTimer, 1000);
 
+    if (timer.hour === 0 && timer.minute === 0 && timer.seconds === 0) {
+      clearInterval(timerInterval);
+    }
+
     return () => {
       clearInterval(timerInterval);
     };
   }, [timer]);
 
-
-  const formattedTimer = `${timer.hour.toString().padStart(2, '0')}:${timer.minute.toString().padStart(2, '0')}:${timer.seconds.toString().padStart(2, '0')}`
+  const formattedTimer = `${timer.hour
+    .toString()
+    .padStart(2, "0")}:${timer.minute
+    .toString()
+    .padStart(2, "0")}:${timer.seconds.toString().padStart(2, "0")}`;
 
   return (
     <div className="timer-card">

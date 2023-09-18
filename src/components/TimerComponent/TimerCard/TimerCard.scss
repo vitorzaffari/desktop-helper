@@ -1,0 +1,21 @@
+.timer-card{
+    // border: 1px solid red;
+    padding: 1rem;
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+    background-color: #2C2B2B;
+    border-radius: 15px;
+    .top{}
+    .bottom{}
+    .option-btns{
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        // border: 1px solid white;
+        padding: 5px;
+        border-radius: 10px;
+        display: flex;
+        background-color: #393939;
+    }
+}
