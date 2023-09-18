@@ -5,6 +5,8 @@
   flex-direction: column;
   gap: 1rem;
   border-radius: 10px;
+  position: relative;
+
 
   .top {
     display: flex;
@@ -17,10 +19,43 @@
     }
 
     .card-options {
+      // position: relative;
       display: flex;
       flex-direction: column;
       button {
         padding: 5px;
+      }
+      .confirm-delete-div.open{
+        height: 90px;
+        padding: 10px;
+        opacity: 1;
+      }
+      .confirm-delete-div{
+        border: 1px solid #f58181;
+        background-color: rgb(44, 42, 42);
+        border-radius: 10px;
+        height: 0;
+        opacity: 0;
+        padding: 0;
+        transition: height 200ms ease, padding 100ms ease, opacity 400ms ease;
+        position: absolute;
+        overflow: hidden;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+        .options{
+          flex: 1;
+          display: flex;
+          button{
+            flex: 1;
+          }
+          button:hover{
+            background-color: #444;
+          }
+        }
       }
     }
   }

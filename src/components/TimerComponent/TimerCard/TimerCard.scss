@@ -10,12 +10,13 @@
     .bottom{}
     .option-btns{
         position: absolute;
-        right: 5px;
-        bottom: 5px;
+        right: 15px;
+        bottom: 10px;
         // border: 1px solid white;
         padding: 5px;
         border-radius: 10px;
         display: flex;
         background-color: #393939;
+        gap: 10px;
     }
 }

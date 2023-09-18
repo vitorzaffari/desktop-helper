@@ -2,6 +2,8 @@ import "./DateForm.scss";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ItemData } from "../../../Utilities/bridge";
+import Confirm from "../../../SvgComponents/Confirm";
+import Cancel from "../../../SvgComponents/Cancel";
 
 interface DateFormProps {
   isDateFormOpen: boolean;
@@ -121,7 +123,7 @@ const DateForm: React.FC<DateFormProps> = ({
       </div>
       <div className="buttons">
         <button className="add" onClick={handleSubmitData}>
-          Confirm
+          <Confirm width={24} height={24}/>
         </button>
         <button
           className="add"
@@ -130,7 +132,7 @@ const DateForm: React.FC<DateFormProps> = ({
             setItemData({ name: "", day: "", month: "", year: "" });
           }}
         >
-          Cancel
+          <Cancel  height={24}/>
         </button>
       </div>
     </div>

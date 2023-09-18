@@ -12,7 +12,6 @@ interface TimerItem {
   minute: number;
   seconds: number;
 }
-
 const TimerCard: React.FC<TimerItem> = ({
   id,
   name,
@@ -20,6 +19,7 @@ const TimerCard: React.FC<TimerItem> = ({
   minute,
   seconds,
 }) => {
+  const [isPaused, setIsPaused] = useState(false);
   const [timer, setTimer] = useState({
     hour,
     minute,
@@ -30,6 +30,11 @@ const TimerCard: React.FC<TimerItem> = ({
     let timerInterval: NodeJS.Timeout;
 
     const updateTimer = () => {
+      if (isPaused) {
+        clearInterval(timerInterval);
+        return;
+      }
+      console.log(isPaused);
       let newSeconds = timer.seconds - 1;
       let newMinute = timer.minute;
       let newHour = timer.hour;
@@ -49,17 +54,19 @@ const TimerCard: React.FC<TimerItem> = ({
         seconds: newSeconds,
       });
     };
+    if (!isPaused) {
+      timerInterval = setInterval(updateTimer, 1000);
 
-    timerInterval = setInterval(updateTimer, 1000);
-
-    if (timer.hour === 0 && timer.minute === 0 && timer.seconds === 0) {
-      clearInterval(timerInterval);
+      if (timer.hour === 0 && timer.minute === 0 && timer.seconds === 0) {
+        clearInterval(timerInterval);
+        console.log("Finished!");
+      }
     }
 
     return () => {
       clearInterval(timerInterval);
     };
-  }, [timer]);
+  }, [timer, isPaused]);
 
   const formattedTimer = `${timer.hour
     .toString()
@@ -76,10 +83,21 @@ const TimerCard: React.FC<TimerItem> = ({
         <p>{formattedTimer}</p>
       </div>
       <div className="option-btns">
-        <button><Edit /></button>
-        <button><Delete /></button>
-        <button><Pause /></button>
-        <button name="Repeat"><Repeat /></button>
+        <button title="Edit">
+          <Edit />
+        </button>
+        <button title="Delete">
+          <Delete />
+        </button>
+        <button title="Pause" onClick={() => setIsPaused(!isPaused)}>
+          <Pause />
+        </button>
+        <button
+          title="Repeat"
+          onClick={() => setTimer({ hour, minute, seconds })}
+        >
+          <Repeat />
+        </button>
       </div>
     </div>
   );

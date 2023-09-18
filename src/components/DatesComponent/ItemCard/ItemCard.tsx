@@ -1,6 +1,6 @@
 import "./ItemCard.scss";
 import { ItemData } from "../../../Utilities/bridge";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Calendar from "../../../SvgComponents/Calendar";
 import Rice from "../../../SvgComponents/Rice";
 import Flag from "../../../SvgComponents/Flag";
@@ -20,9 +20,13 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
   const [initialValues, setInitialValues] = useState({
     name: name,
     date: date,
+    day: "",
+    month: "",
+    year: "",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [day, month, year] = date.split("/");
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [newValues, setNewValues] = useState({
     name: name,
     day: day,
@@ -39,6 +43,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
     setData((prev: ItemData[]) =>
       prev.filter((item) => item.id !== itemId.toString())
     );
+    setIsConfirmDeleteOpen(false);
   }
   function handleEdit() {
     setIsEditing(!isEditing);
@@ -62,6 +67,9 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
     setInitialValues({
       name: newValues.name,
       date: `${newValues.day}/${newValues.month}/${newValues.year}`,
+      day: newValues.day,
+      month: newValues.month,
+      year: newValues.year,
     });
     setIsEditing(false);
   }
@@ -187,16 +195,16 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
           {isEditing ? (
             <>
               <button onClick={handleConfirm}>
-                <Confirm />
+                <Confirm width={24} height={22} />
               </button>
               <button
                 onClick={() => {
                   setIsEditing(false);
                   setNewValues({
-                    name: name,
-                    day: day,
-                    month: month,
-                    year: year,
+                    name: initialValues.name,
+                    day: initialValues.day,
+                    month: initialValues.month,
+                    year: initialValues.year,
                   });
                 }}
               >
@@ -208,9 +216,19 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
               <button title="Edit" onClick={handleEdit}>
                 <Edit width={20} height={20} />
               </button>
-              <button title="Delete" onClick={() => handleRemove(id)}>
+              <button
+                title="Delete"
+                onClick={() => setIsConfirmDeleteOpen(true)}
+              >
                 <Delete width={18} height={18} />
               </button>
+              <div className={`confirm-delete-div ${isConfirmDeleteOpen ? 'open' : ''}`}>
+                <p>Remove this item?</p>
+                <div className="options">
+                  <button onClick={() => handleRemove(id)}>Yes</button>
+                  <button onClick={() => setIsConfirmDeleteOpen(false)}>No</button>
+                </div>
+              </div>
             </>
           )}
         </div>
