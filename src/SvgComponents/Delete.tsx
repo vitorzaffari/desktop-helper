@@ -1,9 +1,9 @@
 
-const Delete = () => {
+const Delete = ({ width = 16, height = 16 }) => {
   return (
     <svg
-      width="13"
-      height="14"
+    width={width}
+    height={height}
       viewBox="0 0 13 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

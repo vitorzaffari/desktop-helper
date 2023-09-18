@@ -1,6 +1,13 @@
 import "./ItemCard.scss";
 import { ItemData } from "../../../Utilities/bridge";
 import { useEffect, useState } from "react";
+import Calendar from "../../../SvgComponents/Calendar";
+import Rice from "../../../SvgComponents/Rice";
+import Flag from "../../../SvgComponents/Flag";
+import Edit from "../../../SvgComponents/Edit";
+import Cancel from "../../../SvgComponents/Cancel";
+import Delete from "../../../SvgComponents/Delete";
+import Confirm from "../../../SvgComponents/Confirm";
 
 interface ItemCardProps {
   name: string;
@@ -101,16 +108,16 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
       return [`In ${remainingDays} days`, "#f7f594"];
     } else if (
       (remainingYears === 0 &&
-      remainingMonths === 0 &&
-      currentMonth < futureMonth)
-      || (remainingYears === 0 &&
-      remainingMonths === 1 &&
-      (currentMonth + 1 == futureMonth))
+        remainingMonths === 0 &&
+        currentMonth < futureMonth) ||
+      (remainingYears === 0 &&
+        remainingMonths === 1 &&
+        currentMonth + 1 == futureMonth)
     ) {
       return ["Next month", "#b8f794"];
-    } else if (remainingYears === 0 && remainingMonths === 1 ) {
+    } else if (remainingYears === 0 && remainingMonths === 1) {
       return [`In two months`, "#a5f379"];
-    } else if (remainingYears === 0 && remainingMonths > 1 ) {
+    } else if (remainingYears === 0 && remainingMonths > 1) {
       return [`In ${remainingMonths} months`, "#a5f379"];
     } else if (remainingYears === 1 && remainingMonths === 0) {
       return ["In one year", "#65d9e9"];
@@ -126,7 +133,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
   return (
     <div className="item-card">
       <div className="top">
-        <div>
+        <div className="item-name-date-div">
           {isEditing ? (
             <input
               type="text"
@@ -136,7 +143,9 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
               value={newValues.name}
             />
           ) : (
-            <p>Name: {initialValues.name}</p>
+            <div className="icon-text-div">
+              <Rice /> <p>{initialValues.name}</p>
+            </div>
           )}
           {isEditing ? (
             <div>
@@ -168,14 +177,18 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
               />
             </div>
           ) : (
-            <p>Date: {initialValues.date}</p>
+            <div className="icon-text-div">
+              <Calendar /> <p>{initialValues.date}</p>
+            </div>
           )}
         </div>
 
         <div className="card-options">
           {isEditing ? (
             <>
-              <button onClick={handleConfirm}>Confirm</button>
+              <button onClick={handleConfirm}>
+                <Confirm />
+              </button>
               <button
                 onClick={() => {
                   setIsEditing(false);
@@ -187,19 +200,25 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
                   });
                 }}
               >
-                Cancel
+                <Cancel />
               </button>
             </>
           ) : (
             <>
-              <button onClick={handleEdit}>Edit</button>
-              <button onClick={() => handleRemove(id)}>Remove</button>
+              <button title="Edit" onClick={handleEdit}>
+                <Edit width={20} height={20} />
+              </button>
+              <button title="Delete" onClick={() => handleRemove(id)}>
+                <Delete width={18} height={18} />
+              </button>
             </>
           )}
         </div>
       </div>
       <div className="bottom">
-        <p>Remaining: {remainingText}</p>
+        <div className="icon-text-div">
+          <Flag /> <p>{remainingText}</p>
+        </div>
         <span
           className="color-indicator"
           style={{ backgroundColor: remaningColor }}

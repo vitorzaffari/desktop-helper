@@ -1,10 +1,10 @@
 import React from "react";
 
-const Repeat = () => {
+const Repeat = ({ width = 16, height = 16 }) => {
   return (
     <svg
-      width="12"
-      height="15"
+    width={width}
+    height={height}
       viewBox="0 0 12 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 interface TimerFormProps {
   isTimerFormOpen: boolean;
   setTimers: Function;
+  setIsTimerFormOpen: Function;
 }
 
 interface TimerItem {
@@ -18,6 +19,7 @@ interface TimerItem {
 const TimerForm: React.FC<TimerFormProps> = ({
   isTimerFormOpen,
   setTimers,
+  setIsTimerFormOpen,
 }) => {
   const [time, setTime] = useState({
     name: "",
@@ -46,6 +48,14 @@ const TimerForm: React.FC<TimerFormProps> = ({
       seconds: time.seconds,
     };
     setTimers((prev: TimerItem[]) => [...prev, item]);
+  }
+
+  function handleCloseForm(){
+    setIsTimerFormOpen(false)
+    setTime({ name: "",
+    seconds: 0,
+    minutes: 0,
+    hours: 0,})
   }
 
   return (
@@ -105,7 +115,7 @@ const TimerForm: React.FC<TimerFormProps> = ({
         <button className="add" onClick={handleAddTimer}>
           Confirm
         </button>
-        <button className="cancel">Cancel</button>
+        <button className="cancel" onClick={handleCloseForm}>Cancel</button>
       </div>
     </div>
   );

@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import "./TimerCard.scss";
+import Edit from "../../../SvgComponents/Edit";
+import Delete from "../../../SvgComponents/Delete";
+import Pause from "../../../SvgComponents/Pause";
+import Repeat from "../../../SvgComponents/Repeat";
 
 interface TimerItem {
   id: string;
@@ -72,10 +76,10 @@ const TimerCard: React.FC<TimerItem> = ({
         <p>{formattedTimer}</p>
       </div>
       <div className="option-btns">
-        <button>Edit</button>
-        <button>Delete</button>
-        <button>Pause</button>
-        <button name="Repeat">Repeat</button>
+        <button><Edit /></button>
+        <button><Delete /></button>
+        <button><Pause /></button>
+        <button name="Repeat"><Repeat /></button>
       </div>
     </div>
   );

@@ -1,10 +1,8 @@
-import React from "react";
-
-const Confirm = () => {
+const Confirm = ({ width = 16, height = 16 }) => {
   return (
     <svg
-      width="19"
-      height="11"
+    width={width}
+    height={height}
       viewBox="0 0 19 11"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

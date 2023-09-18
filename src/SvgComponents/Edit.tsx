@@ -1,9 +1,8 @@
-
-const Edit = () => {
+const Edit = ({ width = 16, height = 16 }) => {
   return (
     <svg
-      width="14"
-      height="13"
+      width={width}
+      height={height}
       viewBox="0 0 14 13"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
