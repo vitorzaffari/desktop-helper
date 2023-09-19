@@ -71,7 +71,7 @@ const DateForm: React.FC<DateFormProps> = ({
     <div className={`date-form ${isDateFormOpen ? "active" : ""}`}>
       <h3>Add a new item</h3>
       <div className="inputs">
-        <div className="input-wrap">
+        <div className="name-input-wrap">
           <label htmlFor="name">Name</label>
           <input
             type="text"

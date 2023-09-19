@@ -140,6 +140,15 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
 
   return (
     <div className="item-card">
+      <div
+        className={`confirm-delete-div ${isConfirmDeleteOpen ? "open" : ""}`}
+      >
+        <p>Remove this item?</p>
+        <div className="options">
+          <button onClick={() => handleRemove(id)}>Yes</button>
+          <button onClick={() => setIsConfirmDeleteOpen(false)}>No</button>
+        </div>
+      </div>
       <div className="top">
         <div className="item-name-date-div">
           {isEditing ? (
@@ -222,13 +231,6 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
               >
                 <Delete width={18} height={18} />
               </button>
-              <div className={`confirm-delete-div ${isConfirmDeleteOpen ? 'open' : ''}`}>
-                <p>Remove this item?</p>
-                <div className="options">
-                  <button onClick={() => handleRemove(id)}>Yes</button>
-                  <button onClick={() => setIsConfirmDeleteOpen(false)}>No</button>
-                </div>
-              </div>
             </>
           )}
         </div>

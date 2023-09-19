@@ -2,6 +2,8 @@ import DateForm from "./DateForm/DateForm";
 import "./DatesComponent.scss";
 import { useState, useEffect } from "react";
 import ItemCard from "./ItemCard/ItemCard";
+import Options from "../../SvgComponents/Options";
+import Rice from "../../SvgComponents/Rice";
 
 interface DataItem {
   id: number;
@@ -53,8 +55,8 @@ const DatesComponent = () => {
       <div className="dates-header" onClick={(e) => handleOpenContainer(e)}>
         <h1 className="dates-title">Dates Helper</h1>
         <div className="dates-options">
-          <button>Options</button>
-          <button onClick={handleOpenForm}>Add</button>
+          <button>Options <Options /></button>
+          <button onClick={handleOpenForm}>Add New <Rice /></button>
         </div>
       </div>
 

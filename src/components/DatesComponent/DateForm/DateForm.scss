@@ -1,8 +1,7 @@
-.date-form.active{
+.date-form.active {
   visibility: visible;
   height: auto;
   opacity: 1;
-  
 }
 
 .date-form {
@@ -13,63 +12,110 @@
   left: 50%;
   display: flex;
   flex-direction: column;
-align-items: center;
-justify-content: center;
+  align-items: center;
+  justify-content: center;
   transform: translateX(-50%);
-  color: #ccc;
+  color: #e2e0e0;
   background-color: #222;
-  padding: 1rem;
+  border-radius: 10px;
+  padding: 2rem;
+gap: 10px;
   opacity: 0;
   height: 0;
-  visibility: hidden;  
+  visibility: hidden;
   transition: height 400ms ease, visibility 400ms ease, opacity 200ms ease;
 
   h3 {
     // width: 200px;
     // margin: 0 auto 1rem;
+    background-color: #2e2e2e;
+    border-radius: 10px;
     text-align: center;
-    padding: 5px;
-    font-weight: 400;
-
+    padding: 5px 10px;
+    font-weight: 100;
+    position: absolute;
+    top: -15px;
+    border: 2px solid #222;
   }
   .inputs {
+    // border: 1px solid red;
     width: fit-content;
     margin: 0 auto;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    .input-wrap {
+    gap: 30px;
+    .name-input-wrap {
+      // border: 1px solid rgb(255, 253, 253);
       display: flex;
-      flex-direction: column;
-      label{
-        margin-bottom: 5px;;
+      // gap: 10px;
+      width: fit-content;
+      position: relative;
+      // flex-direction: column;
+      label {
+        font-size: .7rem;
+        top: -20px;
+        left: -5px;
+        position: absolute;
+        background-color: #313131;
+        padding: 5px 10px;
+        border-radius: 10px;
       }
-      input{
-        max-width: 200px;
+      input {
         padding:  10px;
         border-radius: 5px;
-
         background-color: #ddd;
         border: none;
         outline: none;
         transition: background-color 300ms ease;
 
-        &:focus{
+        &:focus {
           background-color: #fff;
         }
       }
     }
 
     .date-number-inputs {
-      display: flex;
+      // border: 1px solid red;
       gap: 10px;
-      
+      display: flex;
+
       .input-wrap {
-        max-width: 100px;
+        display: flex;
+        gap: 5px;
+        position: relative;
+        flex-direction: column;
+        // max-width: 100px;
+        label {
+          position: absolute;
+          top: -20px;
+          left: -5px;
+          margin-bottom: 5px;
+          margin: 0 auto;
+          background-color: #303030;
+          padding: 3px 6px;
+          font-size: 0.7rem;
+          width: fit-content;
+          border-radius: 10px;
+        }
+        input {
+          max-width: 80px;
+          padding: 10px;
+          border-radius: 5px;
+
+          background-color: #ddd;
+          border: none;
+          outline: none;
+          transition: background-color 300ms ease;
+
+          &:focus {
+            background-color: #fff;
+          }
+        }
       }
     }
   }
-  .buttons{
+  .buttons {
     position: absolute;
     right: 20px;
     display: flex;
@@ -78,13 +124,12 @@ justify-content: center;
     top: 0;
     justify-content: center;
     gap: 10px;
-    button{
+    button {
       padding: 5px;
       font-size: 1rem;
       border-radius: 5px;
 
-
-      &:focus-visible{
+      &:focus-visible {
         outline: 2px solid currentColor;
         outline-offset: 4px;
       }
