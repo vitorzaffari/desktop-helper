@@ -1,4 +1,3 @@
-import React from "react";
 
 const Repeat = ({ width = 16, height = 16 }) => {
   return (

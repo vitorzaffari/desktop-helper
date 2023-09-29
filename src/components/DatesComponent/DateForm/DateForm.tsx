@@ -8,13 +8,11 @@ import Cancel from "../../../SvgComponents/Cancel";
 interface DateFormProps {
   isDateFormOpen: boolean;
   setIsDateFormOpen: Function;
-  setDateFormHeight: Function;
   setData: Function;
 }
 
 const DateForm: React.FC<DateFormProps> = ({
   isDateFormOpen,
-  setDateFormHeight,
   setIsDateFormOpen,
   setData,
 }) => {
@@ -60,8 +58,7 @@ const DateForm: React.FC<DateFormProps> = ({
       const formContainer: null | HTMLElement =
         document.querySelector(".date-form");
       const containerHeight = formContainer?.clientHeight;
-      if (formContainer && setDateFormHeight) {
-        setDateFormHeight(containerHeight);
+      if (formContainer) {
         formContainer.style.height = `${containerHeight}px`;
       }
     }
@@ -72,7 +69,7 @@ const DateForm: React.FC<DateFormProps> = ({
       <h3>Add a new item</h3>
       <div className="inputs">
         <div className="name-input-wrap">
-          <label htmlFor="name">Name</label>
+          {/* <label htmlFor="name">Name</label> */}
           <input
             type="text"
             id="name"
@@ -83,7 +80,7 @@ const DateForm: React.FC<DateFormProps> = ({
         </div>
         <div className="date-number-inputs">
           <div className="input-wrap">
-            <label htmlFor="day">Day</label>
+            {/* <label htmlFor="day">Day</label> */}
             <input
               type="number"
               placeholder="Day"
@@ -96,7 +93,7 @@ const DateForm: React.FC<DateFormProps> = ({
           </div>
 
           <div className="input-wrap">
-            <label htmlFor="month">Month</label>
+            {/* <label htmlFor="month">Month</label> */}
             <input
               type="number"
               placeholder="Month"
@@ -109,7 +106,7 @@ const DateForm: React.FC<DateFormProps> = ({
           </div>
 
           <div className="input-wrap">
-            <label htmlFor="year">Year</label>
+            {/* <label htmlFor="year">Year</label> */}
             <input
               type="number"
               id="year"

@@ -1,4 +1,3 @@
-
 const Delete = ({ width = 16, height = 16 }) => {
   return (
     <svg

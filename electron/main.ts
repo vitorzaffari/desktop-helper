@@ -59,6 +59,7 @@ function handleSaveData(event: Event, data: Data) {
       console.log("Item added successfully! Yahooo!");
     });
   } catch (error) {
+    console.log(event)
     console.log("Error trying to save data to userData: ", error);
   }
 }
@@ -76,6 +77,7 @@ function handleRemoveData(event: Event, data: string) {
       console.log("Found");
       dadosExistentes.datesTracker.splice(idToDelete, 1);
     } else {
+      console.log(event)
       console.log("Not Found");
     }
 
@@ -102,10 +104,11 @@ function handleEditData(event: Event, data: Data) {
       dadosExistentes.datesTracker[itemtoEdit].itemDate = data.itemDate;
       console.log("Item editado");
     } else {
+      console.log(event)
       console.log("Not found");
     }
 
-    fs.writeFile(filePath, JSON.stringify(dadosExistentes), (err) => {
+    fs.writeFile(filePath, JSON.stringify(dadosExistentes), () => {
       console.log("Salvo");
     });
   } catch (error) {
@@ -137,7 +140,7 @@ function createWindow() {
         console.log(typeof(retrievedData))
       }
     } catch(error){
-      console.log("Error trying to read file: ", error)
+      console.log("Error trying to read file: ", error, err)
     }
   });
 

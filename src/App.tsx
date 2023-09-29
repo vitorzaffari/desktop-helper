@@ -1,12 +1,14 @@
 import "./App.css";
 import DatesComponent from "./components/DatesComponent/DatesComponent";
-import TimerConponent from "./components/TimerComponent/TimerConponent";
+import TasksComponents from "./components/TasksComponent/TasksComponents";
+import TimerConponent from "./components/TimerComponent/TimerComponent";
 
 function App() {
   return (
     <>
         <DatesComponent />
         <TimerConponent />
+        <TasksComponents />
     </>
   );
 }

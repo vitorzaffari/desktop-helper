@@ -13,8 +13,8 @@ interface DataItem {
 
 const DatesComponent = () => {
   const [isContainerOpen, setIsContainerOpen] = useState(false);
-  const [dateFormHeight, setDateFormHeight] = useState(0);
   const [isDateFormOpen, setIsDateFormOpen] = useState(false)
+  let containerHeight: Number = 0;
   const [data, setData] = useState([]);
 
   function handleOpenForm() {
@@ -44,10 +44,16 @@ const DatesComponent = () => {
     if (getRetrievedData) {
       setData(getRetrievedData.datesTracker);
     }
+    const temp = document.querySelector('.items-wrapper')
+    console.log('ddd', temp?.getBoundingClientRect().height)
+    if(temp){
+      containerHeight = temp.getBoundingClientRect().height
+    }
+
   }, []);
 
   useEffect(() => {
-    console.log("Data", data);
+    // console.log("Data", data);
   }, [data]);
 
   return (
@@ -56,15 +62,14 @@ const DatesComponent = () => {
         <h1 className="dates-title">Dates Helper</h1>
         <div className="dates-options">
           <button>Options <Options /></button>
-          <button onClick={handleOpenForm}>Add New <Rice /></button>
+          <button onClick={handleOpenForm}>Add <Rice /></button>
         </div>
       </div>
 
-      <div className={`dates-form-wrapper ${isDateFormOpen? 'open' : ''}`}>
+      <div className={`dates-form-wrapper ${isDateFormOpen? 'open' : ''}`} >
         <DateForm
           isDateFormOpen={isDateFormOpen}
           setIsDateFormOpen={setIsDateFormOpen}
-          setDateFormHeight={setDateFormHeight}
           setData={setData}
         />
       </div>

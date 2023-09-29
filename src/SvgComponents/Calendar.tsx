@@ -1,5 +1,3 @@
-import React from "react";
-
 const Calendar = ({ width = 16, height = 16 }) => {
   return (
     <svg

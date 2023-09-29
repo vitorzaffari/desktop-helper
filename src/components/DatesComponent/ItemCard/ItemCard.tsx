@@ -153,6 +153,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
         <div className="item-name-date-div">
           {isEditing ? (
             <input
+              className="edit-input-name"
               type="text"
               id="name"
               placeholder="Editing name"
@@ -167,6 +168,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
           {isEditing ? (
             <div>
               <input
+                className="edit-input-number"
                 type="number"
                 min={1}
                 max={31}
@@ -176,6 +178,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
                 value={newValues.day}
               />
               <input
+                className="edit-input-number"
                 type="number"
                 min={1}
                 max={12}
@@ -185,6 +188,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
                 value={newValues.month}
               />
               <input
+                className="edit-input-number"
                 type="number"
                 min={currentYear}
                 id="year"
@@ -235,7 +239,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
           )}
         </div>
       </div>
-      <div className="bottom">
+      <div className={`bottom ${isEditing ? 'fade' : ''}`}>
         <div className="icon-text-div">
           <Flag /> <p>{remainingText}</p>
         </div>

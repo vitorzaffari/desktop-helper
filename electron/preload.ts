@@ -18,7 +18,7 @@ interface RetrievedData {
 let retrievedData: RetrievedData | null = null
 
 ipcRenderer.on("retrievedData", (event, data) => {
-  console.log('dsdads', data)
+  console.log('dsdads', data, event)
   retrievedData = data;
 });
 

@@ -46,11 +46,11 @@
   .top {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     .item-name-date-div {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
     }
 
     .card-options {
@@ -65,23 +65,53 @@
         padding: 5px;
       }
     }
+
+    .edit-input-name {
+      width: 80%;
+      font-family: "Outfit";
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      background-color: #ececec;
+      padding: 4px;
+
+      &:focus-within {
+        outline: 2px solid rgb(233, 80, 80);
+        background-color: #fff;
+        outline-offset: 4px;
+      }
+    }
+    .edit-input-number {
+      width: 20%;
+      border-radius: 6px;
+      background-color: #ececec;
+      padding: 4px;
+      &:focus-within {
+        outline: 2px solid rgb(233, 80, 80);
+        background-color: #fff;
+      }
+    }
   }
 
   .bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    transition: opacity 300ms ease;
     .color-indicator {
       display: block;
       width: 80px;
       height: 20px;
       border-radius: 20px;
     }
+
+    &.fade {
+      opacity: 0.3;
+    }
   }
 }
 
 .icon-text-div {
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }

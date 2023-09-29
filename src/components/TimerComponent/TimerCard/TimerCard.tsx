@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent, useRef } from "react";
 import "./TimerCard.scss";
 import Edit from "../../../SvgComponents/Edit";
 import Delete from "../../../SvgComponents/Delete";
@@ -30,13 +30,15 @@ const TimerCard: React.FC<TimerItem> = ({
     minute,
     seconds,
   })
-  const [itemName, setItemName] = useState(name);
+  const itemName = name
   const [newItemName, setNewItemName] = useState(name)
   const [timer, setTimer] = useState({
     hour,
     minute,
     seconds,
   });
+
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   function handleEditTimer(e: ChangeEvent<HTMLInputElement>) {
     setNewTimerValues((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -91,7 +93,9 @@ const TimerCard: React.FC<TimerItem> = ({
 
       if (timer.hour === 0 && timer.minute === 0 && timer.seconds === 0) {
         clearInterval(timerInterval);
-        console.log("Finished!");
+        if(audioRef.current){
+          audioRef.current.play()
+        }
       }
     }
 
@@ -157,6 +161,9 @@ const TimerCard: React.FC<TimerItem> = ({
           <p>{formattedTimer}</p>
         )}
       </div>
+      <audio ref={audioRef}>
+        <source src="/assets/RingSound.mp3" type="audio/mpeg" />
+      </audio>
       <div className="option-btns">
         {isEditing ? (
           <>
