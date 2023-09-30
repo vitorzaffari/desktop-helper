@@ -8,6 +8,7 @@ interface TimerFormProps {
   isTimerFormOpen: boolean;
   setTimers: Function;
   setIsTimerFormOpen: Function;
+  setIsTimerContainerOpen: Function;
 }
 
 interface TimerItem {
@@ -21,6 +22,7 @@ interface TimerItem {
 const TimerForm: React.FC<TimerFormProps> = ({
   setTimers,
   setIsTimerFormOpen,
+  setIsTimerContainerOpen
 }) => {
   const [time, setTime] = useState({
     name: "",
@@ -49,6 +51,7 @@ const TimerForm: React.FC<TimerFormProps> = ({
       seconds: time.seconds,
     };
     setTimers((prev: TimerItem[]) => [...prev, item]);
+    setIsTimerContainerOpen(true)
     handleCloseForm();
   }
 

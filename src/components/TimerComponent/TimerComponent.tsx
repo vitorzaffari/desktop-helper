@@ -29,7 +29,7 @@ const TimerConponent = () => {
     if (e.target instanceof Element) {
       const tagName = e.target.tagName;
       // console.log(`Clicked element tag name: ${tagName}`);
-      if (tagName === "BUTTON") {
+      if (tagName === "BUTTON" || tagName === "svg" || tagName === "path") {
         return;
       } else {
         setIsTimerContainerOpen(!isTimerContainerOpen);
@@ -56,6 +56,7 @@ const TimerConponent = () => {
           isTimerFormOpen={isTimerFormOpen}
           setTimers={setTimers}
           setIsTimerFormOpen={setIsTimerFormOpen}
+          setIsTimerContainerOpen={setIsTimerContainerOpen}
         />
       </div>
       <div className={`items-wrapper ${isTimerContainerOpen ? "open" : ""}`}>

@@ -19,7 +19,7 @@ const DatesComponent = () => {
 
   function handleOpenForm() {
     // opens the form and the container if container is closed
-    setIsContainerOpen(true);
+    // setIsContainerOpen(true);
     setIsDateFormOpen(!isDateFormOpen);
   }
 
@@ -30,8 +30,8 @@ const DatesComponent = () => {
 
     if (e.target instanceof Element) {
       const tagName = e.target.tagName;
-      // console.log(`Clicked element tag name: ${tagName}`);
-      if (tagName === "BUTTON") {
+      console.log(`Clicked element tag name: ${tagName}`);
+      if (tagName === "BUTTON" || tagName === "svg" || tagName === "path") {
         return;
       } else {
         setIsContainerOpen(!isContainerOpen);
@@ -45,16 +45,13 @@ const DatesComponent = () => {
       setData(getRetrievedData.datesTracker);
     }
     const temp = document.querySelector('.items-wrapper')
-    console.log('ddd', temp?.getBoundingClientRect().height)
     if(temp){
       containerHeight = temp.getBoundingClientRect().height
     }
 
   }, []);
 
-  useEffect(() => {
-    // console.log("Data", data);
-  }, [data]);
+
 
   return (
     <div className="dates-helper">
@@ -71,6 +68,7 @@ const DatesComponent = () => {
           isDateFormOpen={isDateFormOpen}
           setIsDateFormOpen={setIsDateFormOpen}
           setData={setData}
+          setIsContainerOpen={setIsContainerOpen}
         />
       </div>
       <div

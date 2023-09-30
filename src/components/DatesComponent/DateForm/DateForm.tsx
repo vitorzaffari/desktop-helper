@@ -9,12 +9,14 @@ interface DateFormProps {
   isDateFormOpen: boolean;
   setIsDateFormOpen: Function;
   setData: Function;
+  setIsContainerOpen: Function;
 }
 
 const DateForm: React.FC<DateFormProps> = ({
   isDateFormOpen,
   setIsDateFormOpen,
   setData,
+  setIsContainerOpen,
 }) => {
   const [itemData, setItemData] = useState({
     name: "",
@@ -48,6 +50,7 @@ const DateForm: React.FC<DateFormProps> = ({
     console.log(item);
 
     setItemData({ name: "", day: "", month: "", year: "" });
+    setIsContainerOpen(true)
     setIsDateFormOpen(false);
   }
 
