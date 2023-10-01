@@ -30,7 +30,7 @@ const DatesComponent = () => {
 
     if (e.target instanceof Element) {
       const tagName = e.target.tagName;
-      console.log(`Clicked element tag name: ${tagName}`);
+      // console.log(`Clicked element tag name: ${tagName}`);
       if (tagName === "BUTTON" || tagName === "svg" || tagName === "path") {
         return;
       } else {
