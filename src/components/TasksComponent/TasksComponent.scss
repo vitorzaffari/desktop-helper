@@ -44,5 +44,20 @@
         opacity: 1;
       }
     }
+    .tasks-container-div{
+      border: 1px solid red;
+      //no padding
+      //no margin
+      //get height dinamically to animate :/
+
+      .tasks-container-inner{
+        padding: 1rem;
+        border: 1px solid lightblue;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      
+      }
+    }
   }
 }

@@ -1,9 +1,9 @@
 import Options from "../../SvgComponents/Options";
 import Rice from "../../SvgComponents/Rice";
+import TaskCard from "./TaskCard/TaskCard";
 import "./TasksComponent.scss";
 import TasksForm from "./TasksForm/TasksForm";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 
 interface Task {
   id: string;
@@ -12,15 +12,17 @@ interface Task {
   isCompleted: boolean;
 }
 
-
 const TasksComponents = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleOpenForm() {
     setIsFormOpen(!isFormOpen);
-
   }
+
+  useEffect(() => {
+    console.log(tasks);
+  }, [tasks]);
 
   return (
     <div className="tasks-helper">
@@ -39,14 +41,21 @@ const TasksComponents = () => {
         <div className={`tasks-form ${isFormOpen ? "open" : ""}`}>
           {" "}
           {/* fixed height */}
-          <TasksForm setIsFormOpen={setIsFormOpen} setTasks={setTasks}/>
+          <TasksForm setIsFormOpen={setIsFormOpen} setTasks={setTasks} />
         </div>
         <div className="tasks-container-div">
-          {tasks.map(task => (
-            <p key={task.id}>{task.name}</p>
-          ))}
+          <div className="tasks-container-inner">
+            {tasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                isCompleted={task.isCompleted}
+                isDaily={task.isDaily}
+                name={task.name}
+                id={task.id}
+              />
+            ))}
+          </div>
         </div>
-
       </div>
     </div>
   );

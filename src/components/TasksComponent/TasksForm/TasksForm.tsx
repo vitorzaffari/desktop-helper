@@ -25,6 +25,10 @@ const TasksForm: React.FC<TasksFormProps> = ({ setIsFormOpen, setTasks }) => {
   }
   function handleAdd() {
     //validate
+    if(taskInput.trim() === '') {
+      setTaskInput('')
+      return
+    }
     const newTask: Task = {
       id: uuidv4(),
       name: taskInput,

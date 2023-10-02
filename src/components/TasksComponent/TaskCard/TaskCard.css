@@ -1,0 +1,69 @@
+.timer-card-component{
+    /* border: 1px solid red; */
+    padding: 0 1rem;
+    position: relative;
+    display: flex;
+    & .daily-span{
+        position: absolute;
+        top: -10px;
+        left: -25px;
+        background-color: rgb(40, 138, 184);
+        border-radius: 10px;
+        padding: 4px 10px;
+        font-weight: 200;
+        font-size: .8rem;
+    }
+
+    & .input-wrap{
+        display: flex;
+        font-weight: 200;
+        gap: .5rem;
+        align-items: center;
+        width: fit-content;
+        transition: background-color 300ms ease;
+        /* border: 1px solid pink; */
+        flex: 1;
+        padding: 15px;
+        user-select: none;
+        border-radius: 16px;
+        /* background-color: rgba(99, 100, 99, 0.493); */
+        /* margin-top: 1rem;         */
+        
+        .check{
+            width: 1.1rem;
+            height: 1.1rem;
+        }
+        
+        .check + label{
+            padding: 5px;
+        }
+       
+    }
+    & .input-wrap:hover{
+
+    }
+    & .input-wrap.checked{
+        background-color: rgb(88, 168, 88);
+        box-shadow: 5px 5px 3px rgba(0, 0, 0, 0.301);
+    }
+
+
+
+
+    .timer-options{
+        flex: 1;
+    }
+    .buttons-div{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        & button{
+            border: 1px solid red;
+            width: 100%;
+            padding: 5px 10px;
+        }
+    }
+
+}
