@@ -52,7 +52,8 @@ const TasksComponents = () => {
                 isDaily={task.isDaily}
                 name={task.name}
                 id={task.id}
-              />
+                setTasks={setTasks}
+                />
             ))}
           </div>
         </div>
