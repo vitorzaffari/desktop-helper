@@ -11,6 +11,8 @@ import fs from "fs";
 // │ │ ├── main.js
 // │ │ └── preload.js
 // │
+
+
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged
   ? process.env.DIST
@@ -20,19 +22,29 @@ const filePath = path.join(app.getPath("userData"), "dataStorage.json");
 const initialContent = {
   datesTracker: [
     {
-      itemName: "Exemple",
+      itemName: "Example",
       itemDate: "01/1/2050",
       id: "1560d707-9a17-4408-bdb1-a12f41823ddb",
+    },
+  ],
+  tasksArray: [
+    {
+      itemName: "Example",
+      isCompleted: true,
+      isDaily: true,
+      id: "1512fer7-1dd3-asb5-bdb1-lprm91823ddb",
     },
   ],
 };
 
 interface Data {
+  type?: string;
   id: string;
-  itemDate: string;
-  itemName: string;
+  itemName?: string;
+  itemDate?: string;
+  isDaily?: boolean;
+  isCompleted?: boolean;
 }
-
 
 if (!fs.existsSync(filePath)) {
   fs.writeFile(filePath, JSON.stringify(initialContent), (error) => {
@@ -46,39 +58,53 @@ if (!fs.existsSync(filePath)) {
 
 function handleSaveData(event: Event, data: Data) {
   try {
-    console.log("Trying to sabe data...")
+    console.log("Trying to save data...");
     console.log("Data: ", data);
     const rawData = fs.readFileSync(filePath);
     const dadosExistentes = JSON.parse(rawData.toString("utf8"));
-    console.log("Dados existentes", dadosExistentes);
-    dadosExistentes.datesTracker.push(data);
-    console.log("Dados existentes after", dadosExistentes);
+
+    if (data.type === "Task") {
+      console.log("É uma task!", dadosExistentes);
+      dadosExistentes.tasksArray.push(data);
+    } else {
+      dadosExistentes.datesTracker.push(data);
+    }
+    // console.log("Dados existentes", dadosExistentes);
+    // console.log("Dados existentes after", dadosExistentes);
 
     fs.writeFile(filePath, JSON.stringify(dadosExistentes), (err) => {
       if (err) throw err;
       console.log("Item added successfully! Yahooo!");
     });
   } catch (error) {
-    console.log(event)
+    console.log(event);
     console.log("Error trying to save data to userData: ", error);
   }
 }
 
-function handleRemoveData(event: Event, data: string) {
+function handleRemoveData(event: Event, data: Data) {
   try {
-    const rawData = fs.readFileSync(filePath, 'utf-8');
+    const rawData = fs.readFileSync(filePath, "utf-8");
     const dadosExistentes = JSON.parse(rawData);
-    const idToDelete = dadosExistentes.datesTracker.findIndex(
-      (item: Data) => item.id === data
-    );
-    console.log("Index found", idToDelete);
-
-    if (idToDelete !== -1) {
-      console.log("Found");
-      dadosExistentes.datesTracker.splice(idToDelete, 1);
-    } else {
-      console.log(event)
-      console.log("Not Found");
+    let idToDelete: number = 0;
+    if (data.type === "Task") {
+      idToDelete = dadosExistentes.tasksArray.findIndex(
+        (item: Data) => item.id === data.id
+      );
+      if (idToDelete !== -1) dadosExistentes.tasksArray.splice(idToDelete, 1);
+      else {
+        console.log(event);
+        console.log("Not Found");
+      }
+    } else if (data.type === "Dates") {
+      idToDelete = dadosExistentes.datesTracker.findIndex(
+        (item: Data) => item.id === data.id
+      );
+      if (idToDelete !== -1) dadosExistentes.datesTracker.splice(idToDelete, 1);
+      else {
+        console.log(event);
+        console.log("Not Found");
+      }
     }
 
     fs.writeFile(filePath, JSON.stringify(dadosExistentes), (err) => {
@@ -91,21 +117,29 @@ function handleRemoveData(event: Event, data: string) {
 }
 function handleEditData(event: Event, data: Data) {
   try {
-    const rawData = fs.readFileSync(filePath, 'utf-8');
+    const rawData = fs.readFileSync(filePath, "utf-8");
     const dadosExistentes = JSON.parse(rawData);
-    console.log("This is the data: ", data);
-    const itemtoEdit = dadosExistentes.datesTracker.findIndex(
-      (item: Data) => item.id == data.id
-    );
-    console.log("Index found", itemtoEdit);
-    if (itemtoEdit !== -1) {
-      console.log("Found");
-      dadosExistentes.datesTracker[itemtoEdit].itemName = data.itemName;
-      dadosExistentes.datesTracker[itemtoEdit].itemDate = data.itemDate;
-      console.log("Item editado");
+    if (data.type === "Tasks") {
+      const itemtoEdit = dadosExistentes.tasksArray.findIndex(
+        (item: Data) => item.id == data.id
+      );
+      if (itemtoEdit !== -1) {
+        dadosExistentes.tasksArray[itemtoEdit].itemName = data.itemName;
+        dadosExistentes.tasksArray[itemtoEdit].isCompleted = data.isCompleted;
+
+      } else {
+        console.log(event);
+      }
     } else {
-      console.log(event)
-      console.log("Not found");
+      const itemtoEdit = dadosExistentes.datesTracker.findIndex(
+        (item: Data) => item.id == data.id
+      );
+      if (itemtoEdit !== -1) {
+        dadosExistentes.datesTracker[itemtoEdit].itemName = data.itemName;
+        dadosExistentes.datesTracker[itemtoEdit].itemDate = data.itemDate;
+      } else {
+        console.log(event);
+      }
     }
 
     fs.writeFile(filePath, JSON.stringify(dadosExistentes), () => {
@@ -133,18 +167,15 @@ function createWindow() {
   });
 
   fs.readFile(filePath, (err, data) => {
-    try{
+    try {
       const retrievedData = JSON.parse(data.toString());
-      if(win){
+      if (win) {
         win.webContents.send("retrievedData", retrievedData);
-        console.log(typeof(retrievedData))
       }
-    } catch(error){
-      console.log("Error trying to read file: ", error, err)
+    } catch (error) {
+      console.log("Error trying to read file: ", error, err);
     }
   });
-
-
 
   // Test active push message to Renderer-process.
   win.webContents.on("did-finish-load", () => {
@@ -179,7 +210,4 @@ app.whenReady().then(() => {
   ipcMain.on("removeData", handleRemoveData);
 
   createWindow();
-})
-  
-  
-  
+});

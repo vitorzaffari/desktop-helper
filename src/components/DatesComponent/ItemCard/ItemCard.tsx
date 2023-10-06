@@ -12,7 +12,7 @@ import Confirm from "../../../SvgComponents/Confirm";
 interface ItemCardProps {
   name: string;
   date: string;
-  id: number;
+  id: string;
   setData: Function;
 }
 
@@ -37,8 +37,12 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
   const currentYear = currentDate.getFullYear();
   const [remainingText, remaningColor] = calculateRemain();
 
-  function handleRemove(itemId: number) {
-    window.bridge.removeData(itemId);
+  function handleRemove(itemId: string) {
+    const removeData = {
+      type: 'Dates',
+      id: itemId
+    }
+    window.bridge.removeData(removeData);
 
     setData((prev: ItemData[]) =>
       prev.filter((item) => item.id !== itemId.toString())

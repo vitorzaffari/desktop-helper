@@ -27,9 +27,13 @@ contextBridge.exposeInMainWorld("getData", {
 })
 
 interface ItemData {
-  id: string; //
-  itemDate: string; 
+  //TODO made changes here only
+  type?: string
+  id: string;
   itemName: string;
+  itemDate?: string;
+  isDaily?: boolean;
+  isComplete?: boolean;
 }
 
 contextBridge.exposeInMainWorld("bridge", {

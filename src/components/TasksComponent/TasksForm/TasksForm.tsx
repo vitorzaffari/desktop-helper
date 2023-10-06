@@ -3,8 +3,9 @@ import "./TasksForm.scss";
 import { v4 as uuidv4 } from "uuid";
 
 interface Task {
+  type: string;
   id: string;
-  name: string;
+  itemName: string;
   isDaily: boolean;
   isCompleted: boolean;
 }
@@ -16,6 +17,8 @@ interface TasksFormProps {
 
 const TasksForm: React.FC<TasksFormProps> = ({ setIsFormOpen, setTasks }) => {
   const [taskInput, setTaskInput] = useState("");
+
+
   function clearInput() {
     setTaskInput("");
   }
@@ -24,17 +27,24 @@ const TasksForm: React.FC<TasksFormProps> = ({ setIsFormOpen, setTasks }) => {
     clearInput();
   }
   function handleAdd() {
-    //validate
     if(taskInput.trim() === '') {
       setTaskInput('')
       return
+
+
+
+
+    
     }
     const newTask: Task = {
+      type: 'Task',
       id: uuidv4(),
-      name: taskInput,
+      itemName: taskInput,
       isDaily: false,
       isCompleted: false,
     };
+    //!! GO TO ELECTRON MAIN 
+    window.bridge.sendData(newTask)
 
     setTasks((prev) => [...prev, newTask]);
     setIsFormOpen(false);

@@ -49,15 +49,25 @@
       //no padding
       //no margin
       //get height dinamically to animate :/
-
+      // height: 0;
+      transition: height 1000ms ease, opacity 300ms ease;
+      opacity: 1;
       .tasks-container-inner{
-        padding: 1rem;
+        // padding: 1rem;
+        width: 95%;
+        margin: 0 auto;
         // border: 1px solid lightblue;
         display: flex;
         flex-direction: column;
         gap: 1rem;
       
       }
+    }
+    .tasks-container-div.closed{
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+
     }
   }
 }

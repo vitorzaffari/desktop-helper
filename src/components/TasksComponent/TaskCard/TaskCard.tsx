@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./TaskCard.css";
 import Edit from "../../../SvgComponents/Edit";
 import Delete from "../../../SvgComponents/Delete";
@@ -18,6 +18,7 @@ interface Task {
   name: string;
   isCompleted: boolean;
   isDaily: boolean;
+  type: boolean;
 }
 
 const TaskCard: React.FC<TaskProps> = ({
@@ -27,14 +28,14 @@ const TaskCard: React.FC<TaskProps> = ({
   isDaily,
   setTasks,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(isCompleted);
   const [taskName, setTaskName] = useState(name);
-  const [newTaskName, setNewTaskName] = useState(name)
+  const [newTaskName, setNewTaskName] = useState(name);
 
   const [isEditing, setIsEditing] = useState(false);
   function handleCheck() {
     if (!isEditing) {
-      setIsChecked(!isChecked);
+      setIsChecked((prev) => !prev);
     }
   }
   function handleEdit() {
@@ -42,16 +43,42 @@ const TaskCard: React.FC<TaskProps> = ({
   }
   function handleRemove() {
     // const filtered =
+    const removeItem = {
+      type: "Task",
+      id: id,
+    };
+    window.bridge.removeData(removeItem);
+
     setTasks((prev: Task[]) => [...prev.filter((task) => task.id !== id)]);
   }
-  function handleCancel(){
-    setIsEditing(false)
-    setNewTaskName(taskName)
+  function handleCancel() {
+    setIsEditing(false);
+    setNewTaskName(taskName);
   }
-  function handleConfirm(){
-    setTaskName(newTaskName)
-    setIsEditing(false)
+  function handleConfirm() {
+    setTaskName(newTaskName);
+    const itemEdit = {
+      type: "Tasks",
+      id: id,
+      itemName: newTaskName,
+      isCompleted: isChecked,
+      //is daily, is completed
+    };
+    window.bridge.editData(itemEdit);
+
+    setIsEditing(false);
   }
+
+  useEffect(() => {
+    const itemEdit = {
+      type: "Tasks",
+      id: id,
+      itemName: newTaskName,
+      isCompleted: isChecked,
+      //is daily, is completed
+    };
+    window.bridge.editData(itemEdit);
+  }, [isChecked]);
 
   return (
     <div className="timer-card-component">
@@ -76,7 +103,15 @@ const TaskCard: React.FC<TaskProps> = ({
           checked={isChecked}
           onChange={() => setIsChecked(!isChecked)}
         />
-        {isEditing ? <input type="text" value={newTaskName} onChange={(e) => setNewTaskName(e.target.value)}/> : <label>{taskName}</label>}
+        {isEditing ? (
+          <input
+            type="text"
+            value={newTaskName}
+            onChange={(e) => setNewTaskName(e.target.value)}
+          />
+        ) : (
+          <label>{taskName}</label>
+        )}
       </div>
       <div className="timer-options"></div>
       <div className="buttons-div">

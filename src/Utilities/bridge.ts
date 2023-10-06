@@ -1,14 +1,21 @@
 export interface ItemData {
-  id: string; //
-  itemDate: string;
-  itemName: string;
+  //TODO changed here
+  // id: string; //
+  // itemDate: string;
+  // itemName: string;
+  type?: string
+  id: string;
+  itemName?: string;
+  itemDate?: string;
+  isDaily?: boolean;
+  isComplete?: boolean;
 }
 
 declare global {
   interface Window {
     bridge: {
       sendData: (data: ItemData) => void;
-      removeData: (data: number) => void;
+      removeData: (data: ItemData) => void;
       editData: (data: ItemData) => void;
     };
   }
