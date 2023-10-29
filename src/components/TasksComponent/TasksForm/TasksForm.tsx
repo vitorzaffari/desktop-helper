@@ -43,7 +43,6 @@ const TasksForm: React.FC<TasksFormProps> = ({ setIsFormOpen, setTasks }) => {
       isDaily: false,
       isCompleted: false,
     };
-    //!! GO TO ELECTRON MAIN 
     window.bridge.sendData(newTask)
 
     setTasks((prev) => [...prev, newTask]);

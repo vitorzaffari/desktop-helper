@@ -5,10 +5,11 @@
   transition: transform 300ms ease;
   .timer-header {
     user-select: none;
-    width: 90vw;
+    width: 100%;
     padding: 1rem;
-    margin: 0 auto;
+    margin: 0;
     display: flex;
+
     .timer-title {
       font-size: 2rem;
       flex: 3;

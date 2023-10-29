@@ -1,0 +1,54 @@
+.sidebar-component {
+    /* border: 1px solid red; */
+    height: 100%;
+    background-color: #111;
+    box-shadow: 5px 0 2px rgba(0, 0, 0, 0.5);
+    padding: 1rem .5rem;
+
+    & .header {
+        /* border: 1px solid red; */
+        width: 100%;
+        display: flex;
+        background-color: #1A1A1A;
+
+        & .main-btn{
+            font-size: 1rem;
+            font-family: 'Outfit';
+            text-align: start;
+            /* border: 1px solid red; */
+            flex: 10;
+            padding: 1rem;
+        }
+        & .menu-btn{
+            font-size: 1rem;
+            flex: 1;
+            padding: 1rem;
+        }
+    }
+
+    & .reminders {
+        /* border: 1px solid red; */
+
+        & .options {
+            transition: height 300ms ease;
+            /* border: 1px solid blue; */
+            display: flex;
+            flex-direction: column;
+            /* gap: .4rem; */
+            height: 0px;
+            overflow: hidden;
+            margin-top: .5rem;
+            & button {
+                font-size: 1rem;
+                padding: .5rem 1rem;
+                background-color: #1A1A1A;
+                width: 100%;
+                font-family: 'Outfit';
+                text-align: left;
+            }
+        }
+        & .options.open{
+            height: 151px;
+        }
+    }
+}

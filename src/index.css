@@ -5,6 +5,7 @@
   font-stretch: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Outfit';
   src: url('./fonts/Outfit-ExtraLight.ttf') format('truetype');
@@ -66,7 +67,7 @@
   src: url('./fonts/Outfit-Black.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
-} 
+}
 
 
 
@@ -98,3 +99,25 @@ button {
 ::-webkit-scrollbar {
   width: 0px;
 }
+
+
+/* !! */
+.TEMP_BTN_NOT_WORKING {
+  opacity: .4;
+  cursor: default;
+}
+
+
+.app {
+  display: flex;
+  height: 100vh;
+  background-color: #141414;
+  padding: 1rem;
+}
+
+/* .left {
+  flex: 1;
+  height: 100%;
+  background-color: #111;
+
+} */

@@ -6,7 +6,7 @@ import Options from "../../SvgComponents/Options";
 import Rice from "../../SvgComponents/Rice";
 
 interface DataItem {
-  id: number;
+  id: string;
   itemName: string;
   itemDate: string;
 }
@@ -16,7 +16,7 @@ const DatesComponent = () => {
   const [isDateFormOpen, setIsDateFormOpen] = useState(false)
   let containerHeight: Number = 0;
   const [data, setData] = useState([]);
-
+  console.log(data)
   function handleOpenForm() {
     // opens the form and the container if container is closed
     // setIsContainerOpen(true);
@@ -56,9 +56,9 @@ const DatesComponent = () => {
   return (
     <div className="dates-helper">
       <div className="dates-header" onClick={(e) => handleOpenContainer(e)}>
-        <h1 className="dates-title">Dates Helper</h1>
+        <h1 className="dates-title">Reminders</h1>
         <div className="dates-options">
-          <button>Options <Options /></button>
+          <button className="TEMP_BTN_NOT_WORKING">Options <Options /></button>
           <button onClick={handleOpenForm}>Add <Rice /></button>
         </div>
       </div>

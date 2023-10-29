@@ -1,0 +1,207 @@
+.reminder-card {
+    /* border: 1px solid red; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* padding: 1rem; */
+    background-color: #2C2B2B;
+
+    & .top {
+        /* border: 1px solid red; */
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+
+        & .name {
+            flex: 1;
+            padding: 0 1.5rem;
+            margin-left: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        & .date {
+            margin-right: .5rem;
+            font-size: 1rem;
+            font-weight: 300;
+            width: 110px;
+            text-align: center;
+            background-color: #414141;
+            padding: 5px 15px;
+            border-radius: 6px;
+
+        }
+
+        & .name-input {
+            padding-left: 1rem;
+            width: 100%;
+            font-size: .9rem;
+            font-family: 'Outfit';
+            font-weight: 300;
+        }
+
+        & input {
+            background-color: #474747;
+            border: none;
+            outline: none;
+            height: 35px;
+            border-radius: 9px;
+            color: #fff;
+        }
+
+        & input::placeholder {
+            font-weight: 100;
+            color: #fff;
+            font-size: 15px;
+            font-family: 'Outfit';
+        }
+
+    }
+
+    & .top:hover {
+        background-color: #363636;
+        transition: 300ms ease;
+    }
+
+    & .color-tag {
+        position: absolute;
+        width: 15px;
+        border-radius: 3px;
+        height: 100%;
+        display: block;
+        left: 0;
+        top: 0;
+        transition: opacity 300ms ease;
+    }
+
+    & .color-tag.editing {
+        opacity: .4;
+    }
+
+
+
+
+
+
+    & .bottom {
+        /* border: 1px solid red; */
+        overflow: hidden;
+        height: 0px;
+        font-size: 1.1rem;
+        padding: 0 1.5rem;
+        position: relative;
+        transition: height 300ms ease;
+
+        & .buttons, .edit-btns {
+            /* border: 1px solid red; */
+            position: absolute;
+            right: 0;
+            margin-right: .5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+
+            & button {
+                font-size: 1rem;
+                font-family: 'Outfit';
+                font-weight: 200;
+                padding: .2rem .5rem;
+                border-radius: 6px;
+                transition: opacity 300ms ease;
+            }
+
+            & button.hide {
+                opacity: .4;
+                cursor: default;
+            }
+
+            & .confirm-delete.open {
+                height: 60px;
+                /* overflow: hidden; */
+            }
+
+            & .confirm-delete {
+                transition: height 300ms ease;
+                position: absolute;
+                overflow: hidden;
+                top: 0;
+                width: 150px;
+                right: 110%;
+                height: 0;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+            }
+
+            & .edit-btn, .confirm-btn {
+                background-color: #6FAD64;
+            }
+
+            & .cancel-btn {
+                background-color: #C16A6A;
+
+            }
+        }
+
+        & .date {
+            margin-left: .5rem;
+            margin-top: 1rem;
+            font-size: .9rem;
+        }
+
+        /*editing inputs*/
+        & .editing-date-inputs {
+            padding-left: .5rem;
+            display: flex;
+            gap: .5rem;
+            /* border: 1px solid red; */
+            
+            & input {
+                background-color: #474747;
+                border: none;
+                outline: none;
+                height: 35px;
+                width: 70px;
+                text-align: center;
+                border-radius: 9px;
+                color: #fff;
+            }
+
+            & input::placeholder {
+                font-weight: 100;
+                color: #fff;
+                font-size: 15px;
+                font-family: 'Outfit';
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+    & .bottom.open {
+        height: 80px;
+    }
+}

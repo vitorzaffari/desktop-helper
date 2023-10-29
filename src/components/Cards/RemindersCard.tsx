@@ -1,22 +1,20 @@
-import "./ItemCard.scss";
-import { ItemData } from "../../../Utilities/bridge";
-import { useState } from "react";
-import Calendar from "../../../SvgComponents/Calendar";
-import Rice from "../../../SvgComponents/Rice";
-import Flag from "../../../SvgComponents/Flag";
-import Edit from "../../../SvgComponents/Edit";
-import Cancel from "../../../SvgComponents/Cancel";
-import Delete from "../../../SvgComponents/Delete";
-import Confirm from "../../../SvgComponents/Confirm";
+import { FC, useState } from "react";
+import "./RemindersCard.css";
+import { ItemData } from "../../Utilities/bridge";
 
-interface ItemCardProps {
+interface CardProps {
+  id: string;
   name: string;
   date: string;
-  id: string;
-  setData: Function;
+  setReminders: Function;
 }
 
-const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
+const RemindersCard: React.FC<CardProps> = ({
+  id,
+  name,
+  date,
+  setReminders,
+}) => {
   const [initialValues, setInitialValues] = useState({
     name: name,
     date: date,
@@ -24,6 +22,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
     month: "",
     year: "",
   });
+  const [isBottomOpen, setIsBottomOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [day, month, year] = date.split("/");
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
@@ -39,19 +38,23 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
 
   function handleRemove(itemId: string) {
     const removeData = {
-      type: 'Dates',
-      id: itemId
-    }
+      type: "Reminders",
+      id: itemId,
+    };
     window.bridge.removeData(removeData);
 
-    setData((prev: ItemData[]) =>
+    setReminders((prev: ItemData[]) =>
       prev.filter((item) => item.id !== itemId.toString())
     );
     setIsConfirmDeleteOpen(false);
   }
+
+  //TODO-------------------------------------------------
   function handleEdit() {
     setIsEditing(!isEditing);
+    console.log("Editing");
   }
+  //TODO-------------------------------------------------
 
   function handleChange<T extends HTMLInputElement>(e: React.ChangeEvent<T>) {
     setNewValues((itemData) => ({
@@ -85,7 +88,6 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
       .map(Number);
     const futureDate = new Date(futureYear, futureMonth - 1, futureDay);
     const currentMonth = currentDate.getMonth() + 1;
-    // console.log(currentMonth)
     const timeDifference = futureDate.getTime() - dateNow.getTime();
     const millisecondsInDay = 1000 * 60 * 60 * 24;
     const millisecondsInMonth = millisecondsInDay * 30;
@@ -97,6 +99,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
       (((timeDifference % millisecondsInYear) % millisecondsInMonth) /
         millisecondsInDay) >>
       0;
+    //!!
+    const totalDays = timeDifference / millisecondsInDay;
 
     if (timeDifference < 0) {
       return ["Expired", "red"];
@@ -105,19 +109,19 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
       remainingMonths === 0 &&
       remainingDays < 2
     ) {
-      return [`In 1 day`, "#f88888"];
+      return [`1 day`, "#f88888"];
     } else if (
       remainingYears === 0 &&
       remainingMonths === 0 &&
       remainingDays <= 7
     ) {
-      return [`In ${remainingDays + 1} days`, "#f88888"];
+      return [`${remainingDays + 1} days`, "#f88888"];
     } else if (
       remainingYears === 0 &&
       remainingMonths === 0 &&
       currentMonth === futureMonth
     ) {
-      return [`In ${remainingDays} days`, "#f7f594"];
+      return [`${remainingDays} days`, "#f7f594"];
     } else if (
       (remainingYears === 0 &&
         remainingMonths === 0 &&
@@ -126,134 +130,132 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, date, id, setData }) => {
         remainingMonths === 1 &&
         currentMonth + 1 == futureMonth)
     ) {
-      return ["Next month", "#b8f794"];
+      // return ["1 month", "#b8f794"];
+      return [`${Math.floor(totalDays)} days`, "#b8f794"];
     } else if (remainingYears === 0 && remainingMonths === 1) {
-      return [`In two months`, "#a5f379"];
+      return [`2 months`, "#a5f379"];
     } else if (remainingYears === 0 && remainingMonths > 1) {
       return [`In ${remainingMonths} months`, "#a5f379"];
     } else if (remainingYears === 1 && remainingMonths === 0) {
-      return ["In one year", "#65d9e9"];
+      return ["One year", "#65d9e9"];
     } else if (remainingYears === 1 && remainingMonths > 1) {
-      return [`In one year and ${remainingMonths} months`, "#65d9e9"];
+      return [`One year and ${remainingMonths} months`, "#65d9e9"];
     } else if (remainingYears >= 2) {
-      return [`In ${remainingYears} years`, "#0daef8"];
+      return [`${remainingYears} years`, "#0daef8"];
     } else {
       return ["", ""];
     }
   }
 
+  function handleOpen() {
+    setIsConfirmDeleteOpen(false);
+    isEditing ? '' : setIsBottomOpen(!isBottomOpen);
+  }
+
   return (
-    <div className="item-card">
+    <div className="reminder-card">
       <div
-        className={`confirm-delete-div ${isConfirmDeleteOpen ? "open" : ""}`}
-      >
-        <p>Remove this item?</p>
-        <div className="options">
-          <button onClick={() => handleRemove(id)}>Yes</button>
-          <button onClick={() => setIsConfirmDeleteOpen(false)}>No</button>
-        </div>
-      </div>
-      <div className="top">
-        <div className="item-name-date-div">
+        className={`color-tag  ${isEditing ? "editing" : ""}`}
+        style={{ backgroundColor: remaningColor }}
+      ></div>
+      <div className="top" onClick={handleOpen}>
+        <div className="name">
           {isEditing ? (
-            <input
-              className="edit-input-name"
-              type="text"
-              id="name"
-              placeholder="Editing name"
-              onChange={(e) => handleChange(e)}
-              value={newValues.name}
-            />
+            <input className="name-input" value={name} type="text" />
           ) : (
-            <div className="icon-text-div">
-              <Rice /> <p>{initialValues.name}</p>
-            </div>
+            <p>{name}</p>
           )}
-          {isEditing ? (
-            <div>
+        </div>
+        {isEditing ? (
+          ""
+        ) : (
+          <div className="date">
+            <p>{remainingText}</p>
+          </div>
+        )}
+      </div>
+      <div className={`bottom ${isBottomOpen ? "open" : ""}`}>
+        {isEditing ? (
+          <>
+            <div className="editing-date-inputs">
               <input
-                className="edit-input-number"
+                className="date-input"
                 type="number"
+                name="day"
+                id=""
+                placeholder="dd"
                 min={1}
                 max={31}
-                id="day"
-                placeholder="Day"
-                onChange={(e) => handleChange(e)}
-                value={newValues.day}
+                value={day}
               />
               <input
-                className="edit-input-number"
+                className="date-input"
                 type="number"
+                name="month"
+                id=""
+                placeholder="mm"
                 min={1}
                 max={12}
-                id="month"
-                placeholder="Month"
-                onChange={(e) => handleChange(e)}
-                value={newValues.month}
+                value={month}
+
               />
               <input
-                className="edit-input-number"
+                className="date-input"
                 type="number"
-                min={currentYear}
-                id="year"
-                placeholder="Year"
-                onChange={(e) => handleChange(e)}
-                value={newValues.year}
+                name="year"
+                id=""
+                placeholder="yyyy"
+                value={year}
+                min={new Date().getFullYear()}
               />
             </div>
-          ) : (
-            <div className="icon-text-div">
-              <Calendar /> <p>{initialValues.date}</p>
+            <div className="edit-btns">
+              <button className="confirm-btn">Confirm</button>
+              <button className="cancel-btn" onClick={handleEdit}>
+                Cancel
+              </button>
             </div>
-          )}
-        </div>
+          </>
+        ) : (
+          <>
+            <p className="date">{date}</p>
+            <div className="buttons">
+              <div
+                className={`confirm-delete ${
+                  isConfirmDeleteOpen ? "open" : ""
+                }`}
+              >
+                <p>Delete this item?</p>
 
-        <div className="card-options">
-          {isEditing ? (
-            <>
-              <button onClick={handleConfirm}>
-                <Confirm width={24} height={22} />
+                <div>
+                  <button onClick={() => handleRemove(id)}>Confirm</button>
+                  <button
+                    onClick={() => setIsConfirmDeleteOpen(!isConfirmDeleteOpen)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+              <button
+                className={`edit-btn ${isConfirmDeleteOpen ? "hide" : ""}`}
+                disabled={isConfirmDeleteOpen}
+                onClick={handleEdit}
+              >
+                Edit
               </button>
               <button
-                onClick={() => {
-                  setIsEditing(false);
-                  setNewValues({
-                    name: initialValues.name,
-                    day: initialValues.day,
-                    month: initialValues.month,
-                    year: initialValues.year,
-                  });
-                }}
+                className={`cancel-btn ${isConfirmDeleteOpen ? "hide" : ""}`}
+                onClick={() => setIsConfirmDeleteOpen(!isConfirmDeleteOpen)}
+                disabled={isConfirmDeleteOpen}
               >
-                <Cancel />
+                Remove
               </button>
-            </>
-          ) : (
-            <>
-              <button title="Edit" onClick={handleEdit}>
-                <Edit width={20} height={20} />
-              </button>
-              <button
-                title="Delete"
-                onClick={() => setIsConfirmDeleteOpen(true)}
-              >
-                <Delete width={18} height={18} />
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-      <div className={`bottom ${isEditing ? 'fade' : ''}`}>
-        <div className="icon-text-div">
-          <Flag fill={remaningColor}/> <p>{remainingText}</p>
-        </div>
-        <span
-          className="color-indicator"
-          style={{ backgroundColor: remaningColor }}
-        ></span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 };
 
-export default ItemCard;
+export default RemindersCard;

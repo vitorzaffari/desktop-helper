@@ -42,7 +42,7 @@ const TimerConponent = () => {
       <div className="timer-header" onClick={(e) => handleOpenContainer(e)}>
         <h1 className="timer-title">Timer</h1>
         <div className="timer-options">
-          <button>
+          <button  className="TEMP_BTN_NOT_WORKING">
             Options <Options />
           </button>
           <button onClick={() => setIsTimerFormOpen(!isTimerFormOpen)}>

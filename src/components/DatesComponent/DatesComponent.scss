@@ -1,20 +1,22 @@
 .dates-helper {
   // padding: 1rem;
   margin-top: 1rem;
+  // border: 1px solid red;
 
   .dates-header {
     display: flex;
     // border: 1px solid red;
-    width: 90vw;
-    padding: 1rem;
-    margin: 0 auto;
+    align-items: center;
+    width: 100%;
+    padding: 0 2rem 2rem;
+    margin: 0;
     // justify-content: space-between;
     user-select: none;
 
 
     .dates-title {
-      font-weight: 200;
-      font-size: 2rem;
+      font-weight: 500;
+      font-size: 2.5rem;
       flex: 3;
       // border: 1px solid red;
     }
@@ -23,6 +25,8 @@
     .dates-options {
       display: flex;
       gap: 5px;
+      // border: 1px solid red;
+
 
 
       button {
@@ -44,6 +48,7 @@
   }
 
   .dates-form-wrapper {
+    
     transition: visibility 400ms ease, opacity 400ms ease, height 400ms ease;
     visibility: hidden;
     opacity: 0;
@@ -66,23 +71,25 @@
   .items-container {
     // border: 1px solid red;
     height: fit-content;
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
+    // opacity: 0;
+    // height: 0;
+    // overflow: hidden;
     transition: transform 300ms ease, height 300ms ease, opacity 300ms ease;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    width: 90vw;
+    // width: 90%;
 
 
     .items-wrapper {
       width: 100%;
       // border: 1px solid red;
+      padding:2rem;
       // margin: 2rem 0;
       // flex-direction: column;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      // flex-wrap: wrap;
       gap: 1rem;
     }
   }

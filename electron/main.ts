@@ -96,7 +96,7 @@ function handleRemoveData(event: Event, data: Data) {
         console.log(event);
         console.log("Not Found");
       }
-    } else if (data.type === "Dates") {
+    } else if (data.type === "Reminders") {
       idToDelete = dadosExistentes.datesTracker.findIndex(
         (item: Data) => item.id === data.id
       );
@@ -160,8 +160,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
-    maxWidth: 800,
-    width: 800,
+    // width: 800,
     minWidth: 400,
     minHeight: 1000,
   });
