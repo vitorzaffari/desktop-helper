@@ -39,7 +39,7 @@ function handleSubmitData() {
   };
   window.bridge.sendData(item);
   setReminders((prev: Reminder[]) => [...prev, item]);
-  console.log(item);
+  // console.log(item);
 
   setInputs({ name: "", day: "", month: "", year: "" });
 }
@@ -47,13 +47,6 @@ function handleSubmitData() {
 
 
 
-
-
-
-
-useEffect(() => {
-  console.log(inputs)
-}, [inputs])
 
   useEffect(() => {
     //gets the data from the json when first loaded

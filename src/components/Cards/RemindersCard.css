@@ -58,7 +58,7 @@
 
     }
 
-    & .top:hover {
+    & .top.not-editing:hover {
         background-color: #363636;
         transition: 300ms ease;
     }
@@ -149,7 +149,7 @@
         & .date {
             margin-left: .5rem;
             margin-top: 1rem;
-            font-size: .9rem;
+            font-size: 1rem;
         }
 
         /*editing inputs*/

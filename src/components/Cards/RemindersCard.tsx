@@ -15,16 +15,18 @@ const RemindersCard: React.FC<CardProps> = ({
   date,
   setReminders,
 }) => {
+  const [day, month, year] = date.split("/");
+  // console.log(`day: ${day}, month: ${month}, year: ${year}`)
   const [initialValues, setInitialValues] = useState({
     name: name,
     date: date,
-    day: "",
-    month: "",
-    year: "",
+    day: day,
+    month: month,
+    year: year,
   });
+  // console.log(initialValues)
   const [isBottomOpen, setIsBottomOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [day, month, year] = date.split("/");
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [newValues, setNewValues] = useState({
     name: name,
@@ -33,7 +35,6 @@ const RemindersCard: React.FC<CardProps> = ({
     year: year,
   });
   const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
   const [remainingText, remaningColor] = calculateRemain();
 
   function handleRemove(itemId: string) {
@@ -49,12 +50,11 @@ const RemindersCard: React.FC<CardProps> = ({
     setIsConfirmDeleteOpen(false);
   }
 
-  //TODO-------------------------------------------------
   function handleEdit() {
+    setNewValues({name: initialValues.name, day: initialValues.day, month: initialValues.month, year: initialValues.year})
     setIsEditing(!isEditing);
-    console.log("Editing");
+    // console.log("Editing");
   }
-  //TODO-------------------------------------------------
 
   function handleChange<T extends HTMLInputElement>(e: React.ChangeEvent<T>) {
     setNewValues((itemData) => ({
@@ -70,7 +70,8 @@ const RemindersCard: React.FC<CardProps> = ({
       itemName: newValues.name,
     };
     window.bridge.editData(newItem);
-    console.log("Finish Edit!");
+    // console.log(newItem)
+    // console.log("Finish Edit!");
     setInitialValues({
       name: newValues.name,
       date: `${newValues.day}/${newValues.month}/${newValues.year}`,
@@ -79,6 +80,7 @@ const RemindersCard: React.FC<CardProps> = ({
       year: newValues.year,
     });
     setIsEditing(false);
+    
   }
 
   function calculateRemain() {
@@ -99,7 +101,6 @@ const RemindersCard: React.FC<CardProps> = ({
       (((timeDifference % millisecondsInYear) % millisecondsInMonth) /
         millisecondsInDay) >>
       0;
-    //!!
     const totalDays = timeDifference / millisecondsInDay;
 
     if (timeDifference < 0) {
@@ -138,11 +139,12 @@ const RemindersCard: React.FC<CardProps> = ({
       return [`In ${remainingMonths} months`, "#a5f379"];
     } else if (remainingYears === 1 && remainingMonths === 0) {
       return ["One year", "#65d9e9"];
-    } else if (remainingYears === 1 && remainingMonths > 1) {
-      return [`One year and ${remainingMonths} months`, "#65d9e9"];
+    } else if (remainingYears === 1 && remainingMonths >= 1) {
+      return [`1Y ${remainingMonths}M`, "#65d9e9"];
     } else if (remainingYears >= 2) {
       return [`${remainingYears} years`, "#0daef8"];
     } else {
+      console.log(remainingDays, remainingMonths, remainingYears)
       return ["", ""];
     }
   }
@@ -158,12 +160,12 @@ const RemindersCard: React.FC<CardProps> = ({
         className={`color-tag  ${isEditing ? "editing" : ""}`}
         style={{ backgroundColor: remaningColor }}
       ></div>
-      <div className="top" onClick={handleOpen}>
+      <div className={`top ${isEditing?'': 'not-editing'}`} onClick={handleOpen}>
         <div className="name">
           {isEditing ? (
-            <input className="name-input" value={name} type="text" />
+            <input id="name" name="name" className="name-input" value={newValues.name} type="text" onChange={(e) => handleChange(e)}/>
           ) : (
-            <p>{name}</p>
+            <p>{initialValues.name}</p>
           )}
         </div>
         {isEditing ? (
@@ -182,35 +184,39 @@ const RemindersCard: React.FC<CardProps> = ({
                 className="date-input"
                 type="number"
                 name="day"
-                id=""
+                id="day"
                 placeholder="dd"
                 min={1}
                 max={31}
-                value={day}
+                value={newValues.day}
+                onChange={(e) => handleChange(e)}
+
               />
               <input
                 className="date-input"
                 type="number"
                 name="month"
-                id=""
+                id="month"
                 placeholder="mm"
                 min={1}
                 max={12}
-                value={month}
+                value={newValues.month}
+                onChange={(e) => handleChange(e)}
 
               />
               <input
                 className="date-input"
                 type="number"
                 name="year"
-                id=""
+                id="year"
                 placeholder="yyyy"
-                value={year}
+                value={newValues.year}
                 min={new Date().getFullYear()}
+                onChange={(e) => handleChange(e)}
               />
             </div>
             <div className="edit-btns">
-              <button className="confirm-btn">Confirm</button>
+              <button className="confirm-btn" onClick={handleConfirm}>Confirm</button>
               <button className="cancel-btn" onClick={handleEdit}>
                 Cancel
               </button>
@@ -218,7 +224,7 @@ const RemindersCard: React.FC<CardProps> = ({
           </>
         ) : (
           <>
-            <p className="date">{date}</p>
+            <p className="date">{initialValues.date}</p>
             <div className="buttons">
               <div
                 className={`confirm-delete ${
