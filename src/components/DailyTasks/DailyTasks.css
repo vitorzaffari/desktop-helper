@@ -1,5 +1,4 @@
-.reminder {
-    /* border: 1px solid red; */
+.daily {
     background-color: #222;
     width: 450px;
     /* initial with */
@@ -44,7 +43,7 @@
             font-weight: 300;
         }
 
-        & .date-input {
+        & .timer-input {
             width: 70px;
             text-align: center;
 
@@ -84,11 +83,6 @@
         }
 
     }
-
-
-
-    /* ////////////////////////////////////////////////////////////////// */
-
 .reminders-container{
     /* border: 1px solid red; */
     /* height: 200px; */
