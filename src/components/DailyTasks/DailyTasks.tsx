@@ -46,20 +46,20 @@ const DailyTasks = () => {
   function handleAddTask() {
     let valid = verify();
     if (valid) {
-      console.log("oof");
+      // console.log("oof");
       let hour = formInputs.hours ? parseInt(formInputs.hours) : 0;
       let minute = formInputs.minutes ? parseInt(formInputs.minutes) : 0;
       let second = formInputs.seconds ? parseInt(formInputs.seconds) : 0;
 
       let hasTimer = hour + minute + second > 0;
-      console.log(
-        hour,
-        minute,
-        second
-      );
+      // console.log(
+      //   hour,
+      //   minute,
+      //   second
+      // );
       let itemSeconds = null;
       if (hasTimer) {
-        console.log("has timer");
+        // console.log("has timer");
         itemSeconds =
         hour * 3600 +
         minute * 60 +
@@ -73,15 +73,15 @@ const DailyTasks = () => {
       };
 
       setAllDailyTasks((prev) => [...prev, newItem]);
-      console.log("OK!");
+      // console.log("OK!");
 
       clearInputs()
     }
   }
 
-  useEffect(() => {
-    console.log(allDailyTasks);
-  }, [allDailyTasks]);
+  // useEffect(() => {
+  //   console.log(allDailyTasks);
+  // }, [allDailyTasks]);
 
   return (
     <div className="daily">

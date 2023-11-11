@@ -1,20 +1,32 @@
 .task-card{
     background-color: #2C2B2B;
-    padding: .5rem;
+    padding: .5rem 0.2rem;
     transition: background-color 300ms ease ;
-
+    border-radius: 4px;
 
     & .top{
         /* border: 1px solid red; */
         display: flex;
-        padding: .5rem;
+        padding: .2rem;
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
         align-items: center;
-        gap: .5rem;
+        justify-content: space-between;
         height: 40px;
         position: relative;
+        /* gap: .8rem; */
+        user-select: none;
 
+        & .name{
+            gap: .5rem;
+            display: flex;
+            align-items: center;
+            /* border: 1px solid red; */
+            flex: 5;
+
+            overflow: hidden;
+            word-break: break-all;
+        }
         & .check-btn{
             /* border: 1px solid red; */
             width: 30px;
@@ -23,6 +35,7 @@
             align-items: center;
             justify-content: center;
             transition: background-color 300ms ease ;
+            border-radius: 5px;
         }
         & .check-btn:hover{
             background-color: rgba(255, 255, 255, 0.164);
@@ -34,18 +47,65 @@
 
         & .display{
             /* border: 1px solid red; */
-            position: absolute;
-            left: 50%;
             padding: 1rem;
-            top: 10%;
-            transform: translate(-50%, -50%);
+            height: 100%;
+            display: flex;
+            flex: 1;
 
+            gap: .2rem;
+            align-items: center;
             & .display-text{
                 font-weight: 200;
+                display: flex;
+                gap: .3rem;
+                display: flex;
+                align-items: center;
             }
         }
     }
 }
-& .task-card.finished{
+.task-card.finished{
     background-color: rgb(96, 177, 96);
+}
+.task-card:hover{
+    background-color: #504e4e;
+}
+.task-card.finished:hover{
+    background-color: rgb(96, 177, 96);
+}
+
+
+
+.task-card{
+
+    & .bottom{
+        height: 0px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        transition: height 250ms ease;
+
+        & .options{
+            opacity: 0;
+            padding: .5rem;
+            padding-bottom: .5rem;
+            display: flex;
+            gap: 1rem;
+            transition: opacity 350ms ease;
+            & button{
+                font-family: 'Outfit';
+                font-size: 1rem;
+                font-weight: 200;
+            }
+        }
+    }
+
+    & .bottom.open{
+        height: 30px;
+
+        & .options{
+            opacity: 1;
+        }
+    }
+
 }
