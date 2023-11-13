@@ -2,23 +2,37 @@ import Check from "../../SvgComponents/Check";
 import CheckCompleted from "../../SvgComponents/CheckCompleted";
 import Menu from "../../SvgComponents/Menu";
 import Play from "../../SvgComponents/Play";
+import DailyTasks from "../DailyTasks/DailyTasks";
 import "./DailyTasksCard.css";
 import { useState } from "react";
 
-interface DailyTasksCardProps {
+interface DailyTask {
   id: string;
   itemName: string;
   seconds: number | null;
 }
 
+interface DailyTasksCardProps {
+  id: string;
+  itemName: string;
+  seconds: number | null;
+  setAllDailyTasks: Function;
+  allDailyTasks: DailyTask[];
+}
+
+
 const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
   id,
   itemName,
   seconds,
+  setAllDailyTasks,
+  allDailyTasks
+
 }) => {
   const [isFinished, setIsFinished] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isInfoDivOpen, setInfoDivOpen] = useState(false);
+  const [isConfirmDeleteDivOpen, setIsConfirmDeleteDivOpen] = useState(false);
 
   function handleCheck() {
     setIsFinished(!isFinished);
@@ -39,47 +53,47 @@ const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
     seconds2,
   });
 
-function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>){
-  const targetElement = e.target as HTMLDivElement;
-  if (targetElement.id) {
-    console.log(targetElement.id);
-    return;
-  } else {
-    // If the target element doesn't have an id, check its parent
-    const parentElement = targetElement.parentElement;
-
-    // Check if the parent element exists and has an id
-    if (parentElement && parentElement.id) {
-      console.log(parentElement.id);
+  function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    setIsConfirmDeleteDivOpen(false)
+    const targetElement = e.target as HTMLDivElement;
+    if (targetElement.id) {
+      console.log(targetElement.id);
       return;
     } else {
-      console.log("Neither the target nor its parent has an id.");
-      setInfoDivOpen(!isInfoDivOpen)
+      // If the target element doesn't have an id, check its parent
+      const parentElement = targetElement.parentElement;
+
+      // Check if the parent element exists and has an id
+      if (parentElement && parentElement.id) {
+        console.log(parentElement.id);
+        return;
+      } else {
+        console.log("Neither the target nor its parent has an id.");
+        setInfoDivOpen(!isInfoDivOpen);
+      }
     }
   }
-}
 
-function handleStartTimer(){
-  console.log('Starting timer')
-}
+  function handleStartTimer() {
+    console.log("Starting timer");
+  }
 
+  function handleEditTask() {
+    console.log("Editing timer");
+  }
 
-function handleEditTask(){
-  console.log('Editing timer')
-}
+  function handleRemoveTask() {
+    console.log("Confirming remove timer");
+    setIsConfirmDeleteDivOpen(true)
+  }
+  function handleConfirmRemoveTask() {
+    console.log("Removing timer");
+    setAllDailyTasks((prev:DailyTask[]) => prev.filter(item => item.id != id))
+  }
 
-
-function handleRemoveTask(){
-  console.log('Removing timer')
-}
-
-
-function handleFocusTask(){
-  console.log('Focusing timer')
-}
-
-
-
+  function handleFocusTask() {
+    console.log("Focusing timer");
+  }
 
   const time = `${hours < 10 ? `0${hours}` : `${hours}`}:${
     minutes < 10 ? `0${minutes}` : `${minutes}`
@@ -87,9 +101,7 @@ function handleFocusTask(){
   const displayTimer = seconds != null ? time : "";
   // console.log(props)
   return (
-
-    
-    <div className={`task-card  ${isFinished ? "finished" : ""}`} >
+    <div className={`task-card  ${isFinished ? "finished" : ""}`}>
       <div className={`top`} onClick={(e) => handleClick(e)}>
         <div className="name">
           <button onClick={handleCheck} className="check-btn" id="block">
@@ -104,21 +116,34 @@ function handleFocusTask(){
             {isFinished ? (
               <p style={{ fontWeight: 200 }}>Finished</p>
             ) : (
-              <div className="display-text">
-                {displayTimer}
-              </div>
+              <div className="display-text">{displayTimer}</div>
             )}
           </div>
         )}
       </div>
-      <div className={`bottom ${isInfoDivOpen ? 'open' : ''}`}> 
+      <div className={`bottom ${isInfoDivOpen ? "open" : ""}`}>
         <div className="options">
-          <button onClick={handleStartTimer}>Start timer</button>
+          <button
+            disabled={seconds == null ? true : false}
+            className={seconds != null ? "" : "disable"}
+            onClick={handleStartTimer}
+          >
+            Start timer
+          </button>
           <button onClick={handleEditTask}>Edit</button>
           <button onClick={handleRemoveTask}>Remove</button>
           <button onClick={handleFocusTask}>Focus</button>
         </div>
-      </div> 
+        <div className={`confirm-delete-div ${isConfirmDeleteDivOpen? 'open' : ''}`}>
+          <div className="inner">
+            <p>Delete this task?</p>
+            <div>
+              <button onClick={handleConfirmRemoveTask}>Confirm</button>
+              <button onClick={() =>setIsConfirmDeleteDivOpen(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

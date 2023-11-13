@@ -3,6 +3,7 @@
     padding: .5rem 0.2rem;
     transition: background-color 300ms ease ;
     border-radius: 4px;
+    position: relative;
 
     & .top{
         /* border: 1px solid red; */
@@ -96,7 +97,54 @@
                 font-family: 'Outfit';
                 font-size: 1rem;
                 font-weight: 200;
+                transition: background-color 250ms ease;
+                padding: .2rem .3rem;
+                border-radius: 5px;
             }
+
+            & button:hover{
+                background-color: #646464;
+            }
+            & button.disable{
+                color: #7a7777;
+                cursor: no-drop;
+            }
+            & button.disable:hover{
+                background-color: transparent;
+
+            }
+        }
+
+        & .confirm-delete-div{
+            position: absolute;
+            
+            border-radius: 5px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #2C2B2B;
+            text-align: center;
+            user-select: none;
+            height: 0px; /*---------------------*/
+            overflow: hidden;
+            transition: height 300ms ease, opacity 300ms ease;
+            opacity: 0;
+
+            & .inner{
+                border: 2px solid grey;
+                padding: .5rem;
+                & div button{
+                    /* border: 1px solid red; */
+                    padding: .2rem;
+                    font-family: Outfit;
+                    font-weight: 200;
+                    font-size: 1rem;
+                }
+            }
+        }
+        & .confirm-delete-div.open{
+            height: 65px;
+            opacity: 1;
         }
     }
 

@@ -149,7 +149,7 @@ const DailyTasks = () => {
       </div>
       <div className="reminders-container">
         {allDailyTasks.map(task => (
-          <DailyTasksCard key={task.id} id={task.id} itemName={task.itemName} seconds={task.seconds}/>
+          <DailyTasksCard key={task.id} id={task.id} itemName={task.itemName} seconds={task.seconds} setAllDailyTasks={setAllDailyTasks} allDailyTasks={allDailyTasks}/>
         ))}
       </div>
     </div>
