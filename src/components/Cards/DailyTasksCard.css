@@ -27,6 +27,18 @@
 
             overflow: hidden;
             word-break: break-all;
+
+            & .name-input{
+                background-color: #cac7c7;
+                border: none;
+                outline: none;
+                border-radius: 6px;
+                padding: .4rem;
+                color: #000000;
+                font-family: Outfit;
+                width: 80%;
+                font-weight: 400;
+            }
         }
         & .check-btn{
             /* border: 1px solid red; */
@@ -37,9 +49,13 @@
             justify-content: center;
             transition: background-color 300ms ease ;
             border-radius: 5px;
+            transition: opacity 300ms ease;
         }
         & .check-btn:hover{
             background-color: rgba(255, 255, 255, 0.164);
+        }
+        & .check-btn.editing{
+            opacity: .2;
         }
 
         & .item-name{
@@ -47,21 +63,38 @@
         }
 
         & .display{
-            /* border: 1px solid red; */
             padding: 1rem;
             height: 100%;
             display: flex;
             flex: 1;
-
-            gap: .2rem;
             align-items: center;
             & .display-text{
+                /* width: 80px; */
+                justify-content: center;
                 font-weight: 200;
                 display: flex;
-                gap: .3rem;
+                gap: .15rem;
                 display: flex;
                 align-items: center;
+            
+            & p{
+            /* border: 1px solid red; */
+            width: 20px;
+            text-align: center;
+            display: inline-block;
             }
+            & span{
+                /* border: 1px solid red; */
+                display: inline-block;
+                margin: 0;
+                padding: 0;
+            }
+            }
+        }
+        & .display.empty{
+            /* width: 0px; */
+            padding: 0;
+            flex: 0;
         }
     }
 }
@@ -69,12 +102,14 @@
     background-color: rgb(96, 177, 96);
 }
 .task-card:hover{
-    background-color: #504e4e;
+    background-color: #504e4e56;
 }
 .task-card.finished:hover{
     background-color: rgb(96, 177, 96);
 }
-
+.task-card.finished.editing{
+    background-color: rgb(86, 136, 86);
+}
 
 
 .task-card{
@@ -103,7 +138,7 @@
             }
 
             & button:hover{
-                background-color: #646464;
+                background-color: rgba(255, 255, 255, 0.123);
             }
             & button.disable{
                 color: #7a7777;
@@ -131,7 +166,7 @@
             opacity: 0;
 
             & .inner{
-                border: 2px solid grey;
+                /* border: 2px solid grey; */
                 padding: .5rem;
                 & div button{
                     /* border: 1px solid red; */
@@ -146,6 +181,44 @@
             height: 65px;
             opacity: 1;
         }
+
+
+
+
+
+
+
+
+        & .edit-options{
+            display: flex;
+            & .new-time-inputs{
+                display: flex;
+                gap: .4rem;
+                margin-left: 2.5rem;
+                & .timer-input{
+                    padding: .3rem;
+                    border-radius: 6px;
+                    width: 70px;
+                    background-color:#cac7c7;
+                    border: none;
+                    outline: none;
+                    font-family: Outfit;
+                    text-align: center;
+                }
+            }
+            & .edit-btns{
+                margin-left: .5rem;
+                display: flex;
+                gap: .25rem;
+                & button{
+                    background-color: #2C2B2B;
+                    border-radius: 5px;
+                    font-family: Outfit;
+                    font-weight: 100;
+                    padding: .3rem;
+                }
+            }
+        }
     }
 
     & .bottom.open{
@@ -157,3 +230,17 @@
     }
 
 }
+
+
+.task-card.finished .bottom .options button:hover{
+    background-color: rgba(254, 255, 254, 0.233);
+    /* background-color: rgb(108, 190, 108); */
+}
+.task-card.finished .bottom .options button.disable{
+    /* color: rgb(175, 207, 175); */
+    color: rgba(255, 255, 255, 0.445);
+}
+.task-card.finished .bottom .options button.disable:hover{
+    background-color: transparent;
+}
+
