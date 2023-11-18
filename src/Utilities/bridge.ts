@@ -9,7 +9,11 @@ export interface ItemData {
   itemDate?: string;
   isDaily?: boolean;
   isComplete?: boolean;
+  createAt?: number;
+  seconds?: number | null;
 }
+
+
 
 declare global {
   interface Window {

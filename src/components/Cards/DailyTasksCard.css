@@ -95,6 +95,7 @@
             /* width: 0px; */
             padding: 0;
             flex: 0;
+            display: none;
         }
     }
 }

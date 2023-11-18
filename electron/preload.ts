@@ -34,6 +34,8 @@ interface ItemData {
   itemDate?: string;
   isDaily?: boolean;
   isComplete?: boolean;
+  createAt?: number;
+  seconds?: number;
 }
 
 contextBridge.exposeInMainWorld("bridge", {

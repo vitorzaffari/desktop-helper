@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import {  useState } from "react";
 import "./RemindersCard.css";
 import { ItemData } from "../../Utilities/bridge";
 

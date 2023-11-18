@@ -30,9 +30,11 @@ const initialContent = {
   tasksArray: [
     {
       itemName: "Example",
-      isCompleted: true,
-      isDaily: true,
       id: "1512fer7-1dd3-asb5-bdb1-lprm91823ddb",
+      createdAt: 1000000,
+      type: 'DailyTask',
+      seconds: 3600,
+      isComplete: false
     },
   ],
 };
@@ -43,7 +45,9 @@ interface Data {
   itemName?: string;
   itemDate?: string;
   isDaily?: boolean;
-  isCompleted?: boolean;
+  isComplete?: boolean;
+  createAt?: number;
+  seconds?: number | null;
 }
 
 if (!fs.existsSync(filePath)) {
@@ -63,10 +67,12 @@ function handleSaveData(event: Event, data: Data) {
     const rawData = fs.readFileSync(filePath);
     const dadosExistentes = JSON.parse(rawData.toString("utf8"));
 
-    if (data.type === "Task") {
-      console.log("É uma task!", dadosExistentes);
+    if (data.type === "DailyTask") {
+      console.log("É uma daily task!", dadosExistentes);
       dadosExistentes.tasksArray.push(data);
+
     } else {
+      console.log("Não é uma daily task!", dadosExistentes);
       dadosExistentes.datesTracker.push(data);
     }
     // console.log("Dados existentes", dadosExistentes);
@@ -87,7 +93,7 @@ function handleRemoveData(event: Event, data: Data) {
     const rawData = fs.readFileSync(filePath, "utf-8");
     const dadosExistentes = JSON.parse(rawData);
     let idToDelete: number = 0;
-    if (data.type === "Task") {
+    if (data.type === "DailyTask") {
       idToDelete = dadosExistentes.tasksArray.findIndex(
         (item: Data) => item.id === data.id
       );
@@ -119,13 +125,15 @@ function handleEditData(event: Event, data: Data) {
   try {
     const rawData = fs.readFileSync(filePath, "utf-8");
     const dadosExistentes = JSON.parse(rawData);
-    if (data.type === "Tasks") {
+    if (data.type === "DailyTask") {
       const itemtoEdit = dadosExistentes.tasksArray.findIndex(
         (item: Data) => item.id == data.id
       );
       if (itemtoEdit !== -1) {
         dadosExistentes.tasksArray[itemtoEdit].itemName = data.itemName;
-        dadosExistentes.tasksArray[itemtoEdit].isCompleted = data.isCompleted;
+        dadosExistentes.tasksArray[itemtoEdit].isComplete = data.isComplete;
+        dadosExistentes.tasksArray[itemtoEdit].seconds = data.seconds;
+        dadosExistentes.tasksArray[itemtoEdit].createAt = data.createAt;
 
       } else {
         console.log(event);
@@ -187,7 +195,13 @@ function createWindow() {
     win.loadFile(path.join(process.env.DIST, "index.html"));
   }
 
-  win.webContents.openDevTools();
+  //TODO Dev tools
+  // win.webContents.openDevTools();
+  // console.log(initialContent)
+  // const rawData = fs.readFileSync(filePath);
+  // const dadosExistentes = JSON.parse(rawData.toString("utf8"));
+  // console.log(dadosExistentes)
+  // console.log(dadosExistentes.tasksArray)
 }
 
 app.on("window-all-closed", () => {

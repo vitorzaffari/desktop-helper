@@ -22,19 +22,21 @@ const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
   itemName,
   seconds,
   setAllDailyTasks,
-  allDailyTasks,
+  // allDailyTasks,
 }) => {
   const [isFinished, setIsFinished] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timer, setTimer] = useState<number | null>(seconds);
   const [isEditing, setIsEditing] = useState(false);
   const [isInfoDivOpen, setInfoDivOpen] = useState(false);
+  const [name, setName] = useState(itemName)
   const [isConfirmDeleteDivOpen, setIsConfirmDeleteDivOpen] = useState(false);
   const [currentTimer, setCurrentTimer] = useState({
     currentHours: 0,
     currentMinutes: 0,
     currentSeconds: 0,
   });
+  let timerInterval: NodeJS.Timeout;
 
   function handleCheck() {
     isEditing ? null : setIsFinished(!isFinished);
@@ -84,6 +86,20 @@ const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
     setIsPlaying(true);
   }
   function handleConfirmEdit() {
+    if (editInputs.editName.trim().length == 0) {
+      setIsEditing(false);
+      setEditInputs({
+        editName: itemName,
+        editHour:
+          currentTimer.currentHours > 0 ? currentTimer.currentHours : null,
+        editMinute:
+          currentTimer.currentMinutes > 0 ? currentTimer.currentMinutes : null,
+        editSecond:
+          currentTimer.currentSeconds > 0 ? currentTimer.currentSeconds : null,
+      });
+      return;
+    }
+
     let addAll = 0;
     if (editInputs.editHour != null && editInputs.editHour > 0) {
       addAll = editInputs.editHour * 3600;
@@ -111,7 +127,7 @@ const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
     }:${newSeconds < 10 ? `0${newSeconds}` : `${newSeconds}`}`;
 
     setDisplayTimer(addAll != null && addAll != 0 ? time : "");
-    //!!Remover no futuro
+    //!!Remover no futuro ou não
     setTimerDisplay({
       hours: newHours,
       minutes: newMinutes,
@@ -122,12 +138,25 @@ const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
       currentMinutes: newMinutes,
       currentSeconds: newSeconds,
     });
-
+    setName(editInputs.editName)
     setIsEditing(false);
+    console.log(addAll)
+    const newItem = {
+      itemName: editInputs.editName,
+      id: id,
+      createdAt: new Date().getTime(),
+      type: 'DailyTask',
+      seconds: addAll,
+      isComplete: isFinished
+    }
+    window.bridge.editData(newItem);
   }
+
   function handleEditTask() {
     console.log("Editing timer");
-    setIsEditing(!isEditing);
+    setIsEditing(true);
+    setIsPlaying(false);
+    clearInterval(timerInterval);
     // setIsPlaying(false)
   }
 
@@ -140,6 +169,12 @@ const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
     setAllDailyTasks((prev: DailyTask[]) =>
       prev.filter((item) => item.id != id)
     );
+
+    const removeData = {
+      type: "DailyTask",
+      id: id,
+    };
+    window.bridge.removeData(removeData);
   }
   function handleCancelEdit() {
     setIsEditing(false);
@@ -172,33 +207,32 @@ const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
   const [displayTimer, setDisplayTimer] = useState(seconds != null ? time : "");
 
   useEffect(() => {
-    let timerInterval: NodeJS.Timeout;
+    // let timerInterval: NodeJS.Timeout;
     let newSeconds = 0,
       newMinute = 0,
       newHour = 0;
     newSeconds = timerDisplay.seconds;
     newMinute = timerDisplay.minutes;
     newHour = timerDisplay.hours;
-    if(newSeconds == 0 && newMinute == 0 && newHour == 0){
+    if (newSeconds == 0 && newMinute == 0 && newHour == 0) {
       newSeconds = currentTimer.currentSeconds + 1;
-    newMinute = currentTimer.currentMinutes;
-    newHour = currentTimer.currentHours;
+      newMinute = currentTimer.currentMinutes;
+      newHour = currentTimer.currentHours;
     }
     const updateTimer = () => {
       if (isEditing) {
+        console.log("oi");
         clearInterval(timerInterval);
-        setIsPlaying(false)
-
+        setIsPlaying(false);
         return;
       }
       // console.log(newSeconds, newMinute, newHour);
       if (newSeconds <= 0 && newMinute <= 0 && newHour <= 0) {
         clearInterval(timerInterval);
         console.log("Finished");
-        console.log(newHour)
+        console.log(newHour);
 
-        setIsPlaying(false)
-
+        setIsPlaying(false);
       } else if (newSeconds === 0) {
         if (newMinute === 0) {
           newHour -= 1;
@@ -267,9 +301,9 @@ const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
     });
   }, []);
 
-  useEffect(() => {
-    console.log(currentTimer);
-  }, [currentTimer]);
+  // useEffect(() => {
+  //   console.log(currentTimer);
+  // }, [currentTimer]);
 
   return (
     <div
@@ -296,7 +330,7 @@ const DailyTasksCard: React.FC<DailyTasksCardProps> = ({
               value={editInputs.editName}
             />
           ) : (
-            <p className="item-name">{itemName}</p>
+            <p className="item-name">{name}</p>
           )}
         </div>
 

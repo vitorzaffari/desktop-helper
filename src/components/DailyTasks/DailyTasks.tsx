@@ -4,9 +4,12 @@ import "./DailyTasks.css";
 import DailyTasksCard from "../Cards/DailyTasksCard";
 
 interface DailyTask {
+  type: string;
   id: string;
   itemName: string;
   seconds: number | null;
+  createdAt : number;
+  isComplete : boolean
 }
 
 const DailyTasks = () => {
@@ -67,21 +70,35 @@ const DailyTasks = () => {
       }
       const uuid = uuidv4();
       let newItem: DailyTask = {
+        type: 'DailyTask',
         id: uuid,
         itemName: formInputs.itemName,
         seconds: itemSeconds,
+        createdAt : new Date().getTime(),
+        isComplete: false
       };
+      window.bridge.sendData(newItem);
+
 
       setAllDailyTasks((prev) => [...prev, newItem]);
       // console.log("OK!");
-
+      // console.log(typeof(new Date().getTime()))
       clearInputs()
     }
   }
 
-  // useEffect(() => {
-  //   console.log(allDailyTasks);
-  // }, [allDailyTasks]);
+  useEffect(() => {
+    console.log(allDailyTasks);
+  }, [allDailyTasks]);
+
+
+  useEffect(() => {
+    //gets the data from the json when first loaded
+    const getRetrievedData = window.getData.getRetrievedData();
+    if (getRetrievedData) {
+      setAllDailyTasks(getRetrievedData.tasksArray);
+    }
+  }, []);
 
   return (
     <div className="daily">
